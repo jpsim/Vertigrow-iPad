@@ -1,0 +1,373 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A2F117F514707AC500689A7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F117F414707AC500689A7E /* UIKit.framework */; };
+		A2F117F714707AC500689A7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F117F614707AC500689A7E /* Foundation.framework */; };
+		A2F117F914707AC500689A7E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F117F814707AC500689A7E /* CoreGraphics.framework */; };
+		A2F117FF14707AC500689A7E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A2F117FD14707AC500689A7E /* InfoPlist.strings */; };
+		A2F1180114707AC500689A7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F1180014707AC500689A7E /* main.m */; };
+		A2F1180514707AC500689A7E /* WorkBenchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F1180414707AC500689A7E /* WorkBenchAppDelegate.m */; };
+		A2F1180814707AC500689A7E /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2F1180614707AC500689A7E /* MainStoryboard.storyboard */; };
+		A2F1180B14707AC600689A7E /* WorkBenchMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F1180A14707AC600689A7E /* WorkBenchMasterViewController.m */; };
+		A2F1180E14707AC600689A7E /* WorkBenchDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F1180D14707AC600689A7E /* WorkBenchDetailViewController.m */; };
+		A2F11820147170F400689A7E /* Canning.png in Resources */ = {isa = PBXBuildFile; fileRef = A2F11818147170F300689A7E /* Canning.png */; };
+		A2F11821147170F400689A7E /* DoWithLess.png in Resources */ = {isa = PBXBuildFile; fileRef = A2F11819147170F300689A7E /* DoWithLess.png */; };
+		A2F11822147170F400689A7E /* FairShare.png in Resources */ = {isa = PBXBuildFile; fileRef = A2F1181A147170F400689A7E /* FairShare.png */; };
+		A2F11823147170F400689A7E /* GapInLine.png in Resources */ = {isa = PBXBuildFile; fileRef = A2F1181B147170F400689A7E /* GapInLine.png */; };
+		A2F11824147170F400689A7E /* Gunpowder.png in Resources */ = {isa = PBXBuildFile; fileRef = A2F1181C147170F400689A7E /* Gunpowder.png */; };
+		A2F11825147170F400689A7E /* MakeItStretch.png in Resources */ = {isa = PBXBuildFile; fileRef = A2F1181D147170F400689A7E /* MakeItStretch.png */; };
+		A2F11826147170F400689A7E /* WeCanDoIt.png in Resources */ = {isa = PBXBuildFile; fileRef = A2F1181E147170F400689A7E /* WeCanDoIt.png */; };
+		A2F11827147170F400689A7E /* WorkToWin.png in Resources */ = {isa = PBXBuildFile; fileRef = A2F1181F147170F400689A7E /* WorkToWin.png */; };
+		A2F1182A147170FF00689A7E /* Images.plist in Resources */ = {isa = PBXBuildFile; fileRef = A2F11829147170FF00689A7E /* Images.plist */; };
+		A2F118371471903E00689A7E /* ImageViewForScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F118361471903E00689A7E /* ImageViewForScroller.m */; };
+		E870C9401475678C0072D2E5 /* ThumbImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E870C93F1475678C0072D2E5 /* ThumbImageView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A2F117F014707AC500689A7E /* Vertigrow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vertigrow.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2F117F414707AC500689A7E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A2F117F614707AC500689A7E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A2F117F814707AC500689A7E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A2F117FC14707AC500689A7E /* Vertigrow-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Vertigrow-Info.plist"; sourceTree = "<group>"; };
+		A2F117FE14707AC500689A7E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A2F1180014707AC500689A7E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A2F1180214707AC500689A7E /* Vertigrow-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Vertigrow-Prefix.pch"; sourceTree = "<group>"; };
+		A2F1180314707AC500689A7E /* WorkBenchAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkBenchAppDelegate.h; sourceTree = "<group>"; };
+		A2F1180414707AC500689A7E /* WorkBenchAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkBenchAppDelegate.m; sourceTree = "<group>"; };
+		A2F1180714707AC500689A7E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		A2F1180914707AC600689A7E /* WorkBenchMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkBenchMasterViewController.h; sourceTree = "<group>"; };
+		A2F1180A14707AC600689A7E /* WorkBenchMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkBenchMasterViewController.m; sourceTree = "<group>"; };
+		A2F1180C14707AC600689A7E /* WorkBenchDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkBenchDetailViewController.h; sourceTree = "<group>"; };
+		A2F1180D14707AC600689A7E /* WorkBenchDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkBenchDetailViewController.m; sourceTree = "<group>"; };
+		A2F11818147170F300689A7E /* Canning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Canning.png; sourceTree = "<group>"; };
+		A2F11819147170F300689A7E /* DoWithLess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DoWithLess.png; sourceTree = "<group>"; };
+		A2F1181A147170F400689A7E /* FairShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FairShare.png; sourceTree = "<group>"; };
+		A2F1181B147170F400689A7E /* GapInLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GapInLine.png; sourceTree = "<group>"; };
+		A2F1181C147170F400689A7E /* Gunpowder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gunpowder.png; sourceTree = "<group>"; };
+		A2F1181D147170F400689A7E /* MakeItStretch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MakeItStretch.png; sourceTree = "<group>"; };
+		A2F1181E147170F400689A7E /* WeCanDoIt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WeCanDoIt.png; sourceTree = "<group>"; };
+		A2F1181F147170F400689A7E /* WorkToWin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorkToWin.png; sourceTree = "<group>"; };
+		A2F11829147170FF00689A7E /* Images.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Images.plist; sourceTree = "<group>"; };
+		A2F118351471903E00689A7E /* ImageViewForScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewForScroller.h; sourceTree = "<group>"; };
+		A2F118361471903E00689A7E /* ImageViewForScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewForScroller.m; sourceTree = "<group>"; };
+		E870C93E1475678C0072D2E5 /* ThumbImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbImageView.h; sourceTree = "<group>"; };
+		E870C93F1475678C0072D2E5 /* ThumbImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbImageView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A2F117ED14707AC500689A7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2F117F514707AC500689A7E /* UIKit.framework in Frameworks */,
+				A2F117F714707AC500689A7E /* Foundation.framework in Frameworks */,
+				A2F117F914707AC500689A7E /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A2F117E514707AC500689A7E = {
+			isa = PBXGroup;
+			children = (
+				A2F117FA14707AC500689A7E /* Vertigrow */,
+				A2F117F314707AC500689A7E /* Frameworks */,
+				A2F117F114707AC500689A7E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A2F117F114707AC500689A7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A2F117F014707AC500689A7E /* Vertigrow.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A2F117F314707AC500689A7E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A2F117F414707AC500689A7E /* UIKit.framework */,
+				A2F117F614707AC500689A7E /* Foundation.framework */,
+				A2F117F814707AC500689A7E /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A2F117FA14707AC500689A7E /* Vertigrow */ = {
+			isa = PBXGroup;
+			children = (
+				E870C93E1475678C0072D2E5 /* ThumbImageView.h */,
+				E870C93F1475678C0072D2E5 /* ThumbImageView.m */,
+				A2F1180314707AC500689A7E /* WorkBenchAppDelegate.h */,
+				A2F1180414707AC500689A7E /* WorkBenchAppDelegate.m */,
+				A2F1180614707AC500689A7E /* MainStoryboard.storyboard */,
+				A2F1180914707AC600689A7E /* WorkBenchMasterViewController.h */,
+				A2F1180A14707AC600689A7E /* WorkBenchMasterViewController.m */,
+				A2F1180C14707AC600689A7E /* WorkBenchDetailViewController.h */,
+				A2F1180D14707AC600689A7E /* WorkBenchDetailViewController.m */,
+				A2F118351471903E00689A7E /* ImageViewForScroller.h */,
+				A2F118361471903E00689A7E /* ImageViewForScroller.m */,
+				A2F117FB14707AC500689A7E /* Supporting Files */,
+			);
+			path = Vertigrow;
+			sourceTree = "<group>";
+		};
+		A2F117FB14707AC500689A7E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A2F11829147170FF00689A7E /* Images.plist */,
+				A2F11818147170F300689A7E /* Canning.png */,
+				A2F11819147170F300689A7E /* DoWithLess.png */,
+				A2F1181A147170F400689A7E /* FairShare.png */,
+				A2F1181B147170F400689A7E /* GapInLine.png */,
+				A2F1181C147170F400689A7E /* Gunpowder.png */,
+				A2F1181D147170F400689A7E /* MakeItStretch.png */,
+				A2F1181E147170F400689A7E /* WeCanDoIt.png */,
+				A2F1181F147170F400689A7E /* WorkToWin.png */,
+				A2F117FC14707AC500689A7E /* Vertigrow-Info.plist */,
+				A2F117FD14707AC500689A7E /* InfoPlist.strings */,
+				A2F1180014707AC500689A7E /* main.m */,
+				A2F1180214707AC500689A7E /* Vertigrow-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A2F117EF14707AC500689A7E /* Vertigrow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A2F1181114707AC600689A7E /* Build configuration list for PBXNativeTarget "Vertigrow" */;
+			buildPhases = (
+				A2F117EC14707AC500689A7E /* Sources */,
+				A2F117ED14707AC500689A7E /* Frameworks */,
+				A2F117EE14707AC500689A7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Vertigrow;
+			productName = WorkBench;
+			productReference = A2F117F014707AC500689A7E /* Vertigrow.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A2F117E714707AC500689A7E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = uottawa;
+			};
+			buildConfigurationList = A2F117EA14707AC500689A7E /* Build configuration list for PBXProject "Vertigrow" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A2F117E514707AC500689A7E;
+			productRefGroup = A2F117F114707AC500689A7E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A2F117EF14707AC500689A7E /* Vertigrow */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A2F117EE14707AC500689A7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2F117FF14707AC500689A7E /* InfoPlist.strings in Resources */,
+				A2F1180814707AC500689A7E /* MainStoryboard.storyboard in Resources */,
+				A2F11820147170F400689A7E /* Canning.png in Resources */,
+				A2F11821147170F400689A7E /* DoWithLess.png in Resources */,
+				A2F11822147170F400689A7E /* FairShare.png in Resources */,
+				A2F11823147170F400689A7E /* GapInLine.png in Resources */,
+				A2F11824147170F400689A7E /* Gunpowder.png in Resources */,
+				A2F11825147170F400689A7E /* MakeItStretch.png in Resources */,
+				A2F11826147170F400689A7E /* WeCanDoIt.png in Resources */,
+				A2F11827147170F400689A7E /* WorkToWin.png in Resources */,
+				A2F1182A147170FF00689A7E /* Images.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A2F117EC14707AC500689A7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2F1180114707AC500689A7E /* main.m in Sources */,
+				A2F1180514707AC500689A7E /* WorkBenchAppDelegate.m in Sources */,
+				A2F1180B14707AC600689A7E /* WorkBenchMasterViewController.m in Sources */,
+				A2F1180E14707AC600689A7E /* WorkBenchDetailViewController.m in Sources */,
+				A2F118371471903E00689A7E /* ImageViewForScroller.m in Sources */,
+				E870C9401475678C0072D2E5 /* ThumbImageView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A2F117FD14707AC500689A7E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A2F117FE14707AC500689A7E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A2F1180614707AC500689A7E /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A2F1180714707AC500689A7E /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A2F1180F14707AC600689A7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		A2F1181014707AC600689A7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A2F1181214707AC600689A7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Vertigrow/Vertigrow-Prefix.pch";
+				INFOPLIST_FILE = "Vertigrow/Vertigrow-Info.plist";
+				PRODUCT_NAME = Vertigrow;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A2F1181314707AC600689A7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Vertigrow/Vertigrow-Prefix.pch";
+				INFOPLIST_FILE = "Vertigrow/Vertigrow-Info.plist";
+				PRODUCT_NAME = Vertigrow;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		E8659E94147569AE0021B36F /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		E8659E95147569AE0021B36F /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Vertigrow/Vertigrow-Prefix.pch";
+				INFOPLIST_FILE = "Vertigrow/Vertigrow-Info.plist";
+				PRODUCT_NAME = Vertigrow;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc";
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A2F117EA14707AC500689A7E /* Build configuration list for PBXProject "Vertigrow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2F1180F14707AC600689A7E /* Debug */,
+				A2F1181014707AC600689A7E /* Release */,
+				E8659E94147569AE0021B36F /* Ad Hoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A2F1181114707AC600689A7E /* Build configuration list for PBXNativeTarget "Vertigrow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2F1181214707AC600689A7E /* Debug */,
+				A2F1181314707AC600689A7E /* Release */,
+				E8659E95147569AE0021B36F /* Ad Hoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A2F117E714707AC500689A7E /* Project object */;
+}
