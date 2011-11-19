@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A2B664A714772A7000BDB76B /* Canning_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B6649F14772A7000BDB76B /* Canning_thumb.png */; };
+		A2B664A814772A7000BDB76B /* DoWithLess_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B664A014772A7000BDB76B /* DoWithLess_thumb.png */; };
+		A2B664A914772A7000BDB76B /* FairShare_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B664A114772A7000BDB76B /* FairShare_thumb.png */; };
+		A2B664AA14772A7000BDB76B /* GapInLine_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B664A214772A7000BDB76B /* GapInLine_thumb.png */; };
+		A2B664AB14772A7000BDB76B /* Gunpowder_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B664A314772A7000BDB76B /* Gunpowder_thumb.png */; };
+		A2B664AC14772A7000BDB76B /* MakeItStretch_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B664A414772A7000BDB76B /* MakeItStretch_thumb.png */; };
+		A2B664AD14772A7000BDB76B /* WeCanDoIt_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B664A514772A7000BDB76B /* WeCanDoIt_thumb.png */; };
+		A2B664AE14772A7000BDB76B /* WorkToWin_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B664A614772A7000BDB76B /* WorkToWin_thumb.png */; };
+		A2B664B114772AAF00BDB76B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B664B014772AAF00BDB76B /* MessageUI.framework */; };
 		A2F117F514707AC500689A7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F117F414707AC500689A7E /* UIKit.framework */; };
 		A2F117F714707AC500689A7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F117F614707AC500689A7E /* Foundation.framework */; };
 		A2F117F914707AC500689A7E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F117F814707AC500689A7E /* CoreGraphics.framework */; };
@@ -30,6 +39,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A2B6649F14772A7000BDB76B /* Canning_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Canning_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/Canning_thumb.png; sourceTree = "<group>"; };
+		A2B664A014772A7000BDB76B /* DoWithLess_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DoWithLess_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/DoWithLess_thumb.png; sourceTree = "<group>"; };
+		A2B664A114772A7000BDB76B /* FairShare_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FairShare_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/FairShare_thumb.png; sourceTree = "<group>"; };
+		A2B664A214772A7000BDB76B /* GapInLine_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GapInLine_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/GapInLine_thumb.png; sourceTree = "<group>"; };
+		A2B664A314772A7000BDB76B /* Gunpowder_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Gunpowder_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/Gunpowder_thumb.png; sourceTree = "<group>"; };
+		A2B664A414772A7000BDB76B /* MakeItStretch_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MakeItStretch_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/MakeItStretch_thumb.png; sourceTree = "<group>"; };
+		A2B664A514772A7000BDB76B /* WeCanDoIt_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WeCanDoIt_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/WeCanDoIt_thumb.png; sourceTree = "<group>"; };
+		A2B664A614772A7000BDB76B /* WorkToWin_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WorkToWin_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/WorkToWin_thumb.png; sourceTree = "<group>"; };
+		A2B664B014772AAF00BDB76B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A2F117F014707AC500689A7E /* Vertigrow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vertigrow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2F117F414707AC500689A7E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A2F117F614707AC500689A7E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -65,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2B664B114772AAF00BDB76B /* MessageUI.framework in Frameworks */,
 				A2F117F514707AC500689A7E /* UIKit.framework in Frameworks */,
 				A2F117F714707AC500689A7E /* Foundation.framework in Frameworks */,
 				A2F117F914707AC500689A7E /* CoreGraphics.framework in Frameworks */,
@@ -77,6 +96,7 @@
 		A2F117E514707AC500689A7E = {
 			isa = PBXGroup;
 			children = (
+				A2B664B014772AAF00BDB76B /* MessageUI.framework */,
 				A2F117FA14707AC500689A7E /* Vertigrow */,
 				A2F117F314707AC500689A7E /* Frameworks */,
 				A2F117F114707AC500689A7E /* Products */,
@@ -123,6 +143,14 @@
 		A2F117FB14707AC500689A7E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A2B6649F14772A7000BDB76B /* Canning_thumb.png */,
+				A2B664A014772A7000BDB76B /* DoWithLess_thumb.png */,
+				A2B664A114772A7000BDB76B /* FairShare_thumb.png */,
+				A2B664A214772A7000BDB76B /* GapInLine_thumb.png */,
+				A2B664A314772A7000BDB76B /* Gunpowder_thumb.png */,
+				A2B664A414772A7000BDB76B /* MakeItStretch_thumb.png */,
+				A2B664A514772A7000BDB76B /* WeCanDoIt_thumb.png */,
+				A2B664A614772A7000BDB76B /* WorkToWin_thumb.png */,
 				A2F11829147170FF00689A7E /* Images.plist */,
 				A2F11818147170F300689A7E /* Canning.png */,
 				A2F11819147170F300689A7E /* DoWithLess.png */,
@@ -202,6 +230,14 @@
 				A2F11826147170F400689A7E /* WeCanDoIt.png in Resources */,
 				A2F11827147170F400689A7E /* WorkToWin.png in Resources */,
 				A2F1182A147170FF00689A7E /* Images.plist in Resources */,
+				A2B664A714772A7000BDB76B /* Canning_thumb.png in Resources */,
+				A2B664A814772A7000BDB76B /* DoWithLess_thumb.png in Resources */,
+				A2B664A914772A7000BDB76B /* FairShare_thumb.png in Resources */,
+				A2B664AA14772A7000BDB76B /* GapInLine_thumb.png in Resources */,
+				A2B664AB14772A7000BDB76B /* Gunpowder_thumb.png in Resources */,
+				A2B664AC14772A7000BDB76B /* MakeItStretch_thumb.png in Resources */,
+				A2B664AD14772A7000BDB76B /* WeCanDoIt_thumb.png in Resources */,
+				A2B664AE14772A7000BDB76B /* WorkToWin_thumb.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,8 +22,7 @@
 @synthesize frameCenterForSerialization=_frameCenterForSerialization;
 @synthesize thumbImageToBeSerialized=_thumbImageToBeSerialized;
 @synthesize imageName=_imageName;
-@synthesize boundForSerialization=_boundForSerialization;
-@synthesize transformForSerialization=_transformForSerialization;
+
 
 
 - (id)initWithImage:(UIImage *)image  {
@@ -33,7 +32,7 @@
         [self setUserInteractionEnabled:YES];
         [self setMultipleTouchEnabled:YES];
         [self createGestureRecognizers];
-       
+        
     }
     
     return  self;
@@ -48,8 +47,8 @@
 }
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
     //if ([self.delegate respondsToSelector:@selector(stoppedtracking:)])
-        //[self.delegate stoppedtracking:self];
-
+    //[self.delegate stoppedtracking:self];
+    
 }
 #pragma mark -
 #pragma mark GestureRecocnizers
@@ -63,7 +62,7 @@
     //[singleFingerTap release];
     
     UITapGestureRecognizer *singleFingerDTap = [[UITapGestureRecognizer alloc]
-                                               initWithTarget:self action:@selector(handlDoubleTap:)];
+                                                initWithTarget:self action:@selector(handlDoubleTap:)];
     singleFingerDTap.numberOfTapsRequired = 2;
     [self addGestureRecognizer:singleFingerDTap];
     [singleFingerTap setDelegate:self];
@@ -87,7 +86,7 @@
     [self addGestureRecognizer:rotateGesture];
     [rotateGesture setDelegate:self];
     //[rotateGesture release];
-
+    
 }
 
 #pragma mark -
@@ -106,7 +105,7 @@
 
 - (IBAction)handleRotateGesture:(UIGestureRecognizer *)sender{
     
-
+    
 	if(sender.state == UIGestureRecognizerStateEnded) {
         
 		self.lastRotation = 0.0;
@@ -119,15 +118,15 @@
 	CGAffineTransform newTransform = CGAffineTransformRotate(currentTransform,rotation);
     
 	[sender.view setTransform:newTransform];
-    self.transformForSerialization = newTransform;
+    
     
 	self.lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
     
     
-   }
+}
 
 - (IBAction)handlePinchGesture:(UIGestureRecognizer *)sender { 
-        static CGRect initialBounds;
+    static CGRect initialBounds;
     
     UIView *_view = sender.view;
     
@@ -140,18 +139,17 @@
     CGAffineTransform zt = CGAffineTransformScale(CGAffineTransformIdentity, factor, factor);
     _view.bounds = CGRectApplyAffineTransform(initialBounds, zt);
     
-    self.boundForSerialization = _view.bounds ;
     
     if ([self.delegate respondsToSelector:@selector(pinchGesture:)])
         [self.delegate pinchGesture:self];
-
+    
 }
 
 - (IBAction)handlePanGesture:(UIPanGestureRecognizer *)sender {
     
     CGPoint translatedPoint = [(UIPanGestureRecognizer*)sender translationInView:self.superview];
-   //CGPoint newpoint = [[self.view viewWithTag:3001] convertPoint:draggingThumb.frame.origin toView:self.view];
-        
+    //CGPoint newpoint = [[self.view viewWithTag:3001] convertPoint:draggingThumb.frame.origin toView:self.view];
+    
     if([(UIPanGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
         self.firstX = [sender.view center].x;
         self.firstY = [sender.view center].y;
@@ -160,16 +158,15 @@
     translatedPoint = CGPointMake(self.firstX+translatedPoint.x, self.firstY+translatedPoint.y);
     
     [sender.view setCenter:translatedPoint];
-
-    self.frameCenterForSerialization = translatedPoint;
+    self.frameCenterForSerialization = sender.view.center;
     
     if ([self.delegate respondsToSelector:@selector(panGesture:)])
         [self.delegate panGesture:self];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-        return ![gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] && ![gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]];
-    }
+    return ![gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] && ![gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]];
+}
 
 #pragma mark -
 #pragma mark Archiving objects
@@ -177,7 +174,7 @@
 -(void) encodeWithCoder:(NSCoder *)aCoder{
     [super encodeWithCoder:aCoder];
     [aCoder encodeCGPoint:self.frameCenterForSerialization forKey:@"viewFrame" ];    
-     NSData *imageData = [NSData dataWithData:UIImageJPEGRepresentation(self.thumbImageToBeSerialized,0.5)];
+    NSData *imageData = [NSData dataWithData:UIImageJPEGRepresentation(self.thumbImageToBeSerialized,0.5)];
     [aCoder encodeDataObject:imageData];
     [aCoder encodeFloat:self.lastRotation forKey:@"lastRotaion"];
     [aCoder encodeFloat:self.firstX forKey:@"firstx"];

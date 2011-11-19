@@ -17,10 +17,6 @@
 //bunch of instance variables for serialization
 
 @property(nonatomic,assign) CGPoint frameCenterForSerialization; 
-@property(nonatomic,assign)CGRect boundForSerialization;
-@property(nonatomic,assign) CGAffineTransform transformForSerialization;
-
-
 @property(nonatomic,retain) UIImage *thumbImageToBeSerialized;
 @property(nonatomic,strong) id<ThumbImageViewDelegate> delegate;
 @property(nonatomic,retain) NSString *imageName;

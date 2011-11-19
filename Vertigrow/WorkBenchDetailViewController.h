@@ -9,21 +9,23 @@
 #import <UIKit/UIKit.h>
 #import "ThumbImageView.h"
 #import "ImageViewForScroller.h"
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMessageComposeViewController.h>
 
-@interface WorkBenchDetailViewController : UIViewController <UISplitViewControllerDelegate,UIGestureRecognizerDelegate,ThumbImageViewDelegate,ImageViewForScrollerDelegate>{
+@interface WorkBenchDetailViewController : UIViewController <UISplitViewControllerDelegate,UIGestureRecognizerDelegate,ThumbImageViewDelegate,ImageViewForScrollerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,MFMailComposeViewControllerDelegate>{
     BOOL thumbViewShowing;
-
+    
 }
 
 @property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
-
-@property (nonatomic, retain) IBOutlet UINavigationController *masterNavController; // convenience.
-@property (nonatomic, retain) IBOutlet UINavigationController *detailNavController; // convenience.
-
+@property (nonatomic, retain) IBOutlet UINavigationController *masterNavController; // convenience
+@property (nonatomic, retain) IBOutlet UINavigationController *detailNavController; // convenience
 @property(nonatomic,retain) UIScrollView *thumbScrollView;
 @property(nonatomic,retain)UIView       *slideUpView; // Contains thumbScrollView and a label giving credit for the images.
 @property(nonatomic,retain) NSArray *ImagesNameArray;
+
+
 - (IBAction)sildeMasterViewLeftRight:(id)sender;
 - (void)createThumbScrollViewIfNecessary;
 - (void)createSlideUpViewIfNecessary;

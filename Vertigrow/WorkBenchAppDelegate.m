@@ -15,49 +15,43 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 - (BOOL)saveChanges;
 - (NSString *)allImageViewsArchivePath;
 - (void)fetchubViewsIfNecessary;
--(void)setupView;
+-(void)setupSubviews:(NSNotification *)notification;
+-(void)createKey;
+-(void)setUptTableView;
+-(void)updateDictionary:(NSNotification *)notification;
+-(void)clearDetailControllerMainView;
 @end
 
 @implementation WorkBenchAppDelegate
 
 @synthesize window = _window;
-@synthesize savedObjectsArray=_savedObjectsArray;
 @synthesize splitViewController=_splitViewController;
-@synthesize fileNamesArray=_fileNamesArray;
-@synthesize fileName=_fileName;
+@synthesize keysArray=_keysArray;
+@synthesize key=_key;
+@synthesize toBeSavedDictionary=_toBeSavedDictionary;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    
     
     self.splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [self.splitViewController.viewControllers lastObject];
     self.splitViewController.delegate = (id)navigationController.topViewController;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(setupView:)
-                                                 name:@"MyNotification" object:nil];
-    
-           
-    return YES;
-}
--(void)setupView:(NSNotification *)notification{
-    
-    int index = [[[notification userInfo] valueForKey:@"index"] intValue];
-    NSLog(@"i have got %d",index);
+                                             selector:@selector(setupSubviews:)
+                                                 name:@"setupSubviewsNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateDictionary:)
+                                                 name:@"updateDictionaryNotification" object:nil];
     
     [self fetchubViewsIfNecessary];
-    if(self.savedObjectsArray){
-        
-        for (ThumbImageView *subview in self.savedObjectsArray) {
-            [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] addSubview:subview];
-            [subview setDelegate:[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] ];
-            
-        }
-    }
+    [self setUptTableView];
     
+    return YES;
 }
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*
@@ -68,28 +62,11 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-     NSLog(@"entered background");
+    NSLog(@"entered background");
     /*
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
-    
-    //save all objects on the detailImageView in savedObjectsArray array
-    //self.savedObjectsArray = [[NSMutableArray alloc] init];
-
-    NSLog(@"the first time");
-    CFUUIDRef newUniqueID = CFUUIDCreate (kCFAllocatorDefault);
-    
-    // Create a string from unique identifier
-    CFStringRef newUniqueIDString =
-    CFUUIDCreateString (kCFAllocatorDefault, newUniqueID);
-    
-    NSString *key  =  (__bridge NSString*)newUniqueIDString;
-    self.fileName = [NSString stringWithFormat:@"%@.data",key];
-    
-   
-    [self.savedObjectsArray addObjectsFromArray:[[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] subviews]];
-    
     [self saveChanges];
 }
 
@@ -116,10 +93,189 @@ NSString *pathIndocumentDirectory(NSString *fileName);
      */
     
 }
+-(void)clearDetailControllerMainView{
+    NSMutableArray *subviewsToBeeleted =[[NSMutableArray alloc] initWithArray:[[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] subviews]];
+    
+    for (ThumbImageView *view in subviewsToBeeleted) {
+        [view removeFromSuperview];
+    }
+    subviewsToBeeleted= nil;
+}
+-(void)setUptTableView{
+    
+    
+    NSDictionary* dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"setUptTableViewNotification" object:self userInfo:dict];
+}
+-(void)updateDictionary:(NSNotification *)notification{
+    
+    NSUInteger index = [[[notification userInfo] valueForKey:@"keyTobeRemoved"] intValue];
+    NSString *keytTobeRemoved = [[self.toBeSavedDictionary allKeys] objectAtIndex:index];
+    [self.toBeSavedDictionary removeObjectForKey:keytTobeRemoved];
+    NSLog(@"self.keysArray %d", [self.keysArray count]);
+    
+    [self clearDetailControllerMainView];
+    
+}
+-(void)setupSubviews:(NSNotification *)notification{
+    
+    [self clearDetailControllerMainView];
+    
+    NSUInteger index = [[[notification userInfo] valueForKey:@"index"] intValue];
+    NSLog(@"i have got %d",index);
+    
+    //get the key for the selected project in tableview
+    self.key = [self.keysArray objectAtIndex:index];
+    NSLog(@"self.key %@", self.key);
+    
+    
+    //get the array containing all the subviews serialized properties required for the recreation of suviews
+    NSArray *savedSubviewsArray = [self.toBeSavedDictionary objectForKey:self.key];
+    NSLog(@"there are %d subviews to be added!", [savedSubviewsArray count]);
+    
+    
+    if(savedSubviewsArray){
+        
+        for(NSMutableArray *propertiesArray in savedSubviewsArray){
+            
+            //grab the name of the image file located on Supporting Files Directory
+            NSString *fileName = [propertiesArray objectAtIndex:0];
+            NSLog(@" i am going to grab %@ image",fileName);
+            
+            //grab the imgae with the same file name
+            UIImage *thumbImage = [UIImage imageNamed:fileName];
+            
+            //scale the image 
+            //UIImage *scaledImage = [UIImage imageWithCGImage:[thumbImage CGImage] scale:15 orientation:UIImageOrientationUp];
+            
+            // create the ThumbImageView to be added to the detailviewcontrollers's main view 
+            ThumbImageView *addIt =  [[ThumbImageView alloc] initWithImage:thumbImage];
+            
+            //setup the properties of ThumbImageView
+            addIt.imageName = [propertiesArray objectAtIndex:0]; 
+            
+            addIt.center = [[propertiesArray objectAtIndex:1] CGPointValue];
+            NSLog(@"addIt.center %@", NSStringFromCGPoint(addIt.center));
+            
+            addIt.bounds = [[propertiesArray objectAtIndex:2] CGRectValue]; 
+            NSLog(@"addIt.bounds: %@", NSStringFromCGRect(addIt.bounds));
+            
+            addIt.transform = [[propertiesArray objectAtIndex:3] CGAffineTransformValue];
+            NSLog(@"addIt.transform: %@",NSStringFromCGAffineTransform(addIt.transform));
+            
+            //add the image to the detailviewcontrollers's main view 
+            [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] addSubview:addIt];
+            [addIt setDelegate:[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] ];
+        }
+    }
+    
+    savedSubviewsArray= nil;
+}
+
+- (void)fetchubViewsIfNecessary
+{
+    
+    if(!self.toBeSavedDictionary){
+        NSString *path =[self allImageViewsArchivePath];
+        self.toBeSavedDictionary = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+        
+    }
+    
+    if(!self.toBeSavedDictionary){
+        self.toBeSavedDictionary = [NSMutableDictionary dictionary];
+    }
+    
+    //if the dictionary is not empty it means there exists at least one project
+    if(!self.keysArray){
+        
+        self.keysArray = [[NSMutableArray alloc] init];
+    }
+    
+    if([self.toBeSavedDictionary count]>0){  
+        
+        [self.keysArray addObjectsFromArray:[self.toBeSavedDictionary allKeys]];
+        
+    }
+}
+
+- (BOOL)saveChanges
+{
+    //extract all subview from the detailview controller's main view
+    NSMutableArray *allsubviewsArray = [[NSMutableArray alloc] init]; 
+    
+    [allsubviewsArray addObjectsFromArray:[[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] subviews]]; 
+    NSLog(@"allsubviewsArray: %d ", [allsubviewsArray count]);
+    
+    NSMutableArray *allsubviewsPropertiesArray = [[NSMutableArray alloc] init]; 
+    if ([allsubviewsArray count]>0) {
+        
+        for (ThumbImageView *view in allsubviewsArray) {
+            
+            
+            NSMutableArray *array = [[NSMutableArray alloc] init];
+            
+            [array insertObject:view.imageName atIndex:0];
+            
+            NSValue *frameCenter = [NSValue valueWithCGPoint:view.center];
+            NSLog(@"view.frameCenterForSerialization: %@", NSStringFromCGPoint(view.center));
+            [array insertObject:frameCenter atIndex:1];
+            
+            
+            NSValue *bound = [NSValue valueWithCGRect:view.bounds];
+            NSLog(@"view.boundForSerialization: %@", NSStringFromCGRect(view.bounds));
+            [array insertObject:bound atIndex:2];
+            
+            NSValue *transform = [NSValue valueWithCGAffineTransform:view.transform];
+            NSLog(@"view.transformForSerialization: %@",NSStringFromCGAffineTransform(view.transform));
+            [array insertObject:transform atIndex:3];
+            
+            [allsubviewsPropertiesArray addObject:array];
+            array=nil;
+        }
+    }  
+    NSLog(@"allsubviewsPropertiesArray count: %d",[allsubviewsPropertiesArray count]);
+    if(!self.key){
+        [self createKey];
+    }
+    [self.toBeSavedDictionary setObject:allsubviewsPropertiesArray forKey:self.key];
+    NSLog(@"self.toBeSavedDictionary count %d", [self.toBeSavedDictionary count]);
+    
+    allsubviewsArray=nil;
+    allsubviewsPropertiesArray=nil;
+    
+    return ([NSKeyedArchiver archiveRootObject: self.toBeSavedDictionary
+                                        toFile:[self allImageViewsArchivePath]]);
+    
+}
+-(void)createKey{
+    
+    
+    NSLog(@"the first time");
+    CFUUIDRef newUniqueID = CFUUIDCreate (kCFAllocatorDefault);
+    
+    // Create a string from unique identifier
+    CFStringRef newUniqueIDString =
+    CFUUIDCreateString (kCFAllocatorDefault, newUniqueID);
+    
+    NSString *key  =  (__bridge NSString*)newUniqueIDString;
+    self.key = [NSString stringWithFormat:@"%@.data",key];
+    
+}
+
+- (NSString *)allImageViewsArchivePath
+{
+    // The returned path will be Sandbox/Documents/allsubviews.data
+    // Both the saving and loading methods will call this method to get the same path,
+    // preventing a typo in the path name of either method
+    
+    return pathIndocumentDirectory(@"saved.data");
+}
+
+@end
 
 NSString *pathIndocumentDirectory(NSString *fileName)
 {
-  
+    
     NSArray *documentDirectories =
     NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                         NSUserDomainMask, YES);
@@ -129,55 +285,4 @@ NSString *pathIndocumentDirectory(NSString *fileName)
     // Append passed in file name to that directory, return it
     return [documentDirectory stringByAppendingPathComponent:fileName];
 }
-- (void)fetchubViewsIfNecessary
-{
-    NSLog(@"i am in fetchubViewsIfNecessary");
-    if(!self.fileName){
-        self.fileName = [[NSUserDefaults standardUserDefaults] objectForKey:filenamePrefKey];
-         NSLog(@"the name of the file %@",self.fileName);
-    }else{
-        NSLog(@"the self.fileName is empty");
-    }
-    // If we don't currently have an self.savedObjectsArray array, try to read one from disk
-    if (!self.savedObjectsArray) {
-        NSLog(@"file path: %@",[self allImageViewsArchivePath]);
-        NSString *path =[self allImageViewsArchivePath];
-        self.savedObjectsArray  = [NSKeyedUnarchiver unarchiveObjectWithFile:path] ;
-        
-    }
-    // If we tried to read one from disk but does not exist, then create a new one
-    if (!self.savedObjectsArray) {
-        self.savedObjectsArray = [[NSMutableArray alloc] init];    
-    }
-    /*if(!self.fileNamesArray){
-        NSString *pathToFileNames = pathIndocumentDirectory(@"fileNames.data");
-        self.fileNamesArray = [NSKeyedUnarchiver unarchiveObjectWithFile:pathToFileNames];
-    }
-    if(!self.fileNamesArray){
-        self.fileNamesArray = [[NSMutableArray alloc] init]; 
-    }*/
-    
-}
-- (NSString *)allImageViewsArchivePath
-{
-    // The returned path will be Sandbox/Documents/allsubviews.data
-    // Both the saving and loading methods will call this method to get the same path,
-    // preventing a typo in the path name of either method
-    
-    return pathIndocumentDirectory(self.fileName);
-}
-- (BOOL)saveChanges
-{
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    for (ThumbImageView *view in self.savedObjectsArray) {
-        [array insertObject:view.imageName atIndex:0];
-        
-    }
-    [[NSUserDefaults standardUserDefaults] setObject:self.fileName forKey:filenamePrefKey];
-    
-    return ([NSKeyedArchiver archiveRootObject: self.savedObjectsArray
-                                        toFile:[self allImageViewsArchivePath]]);
-   
-           
-}
-@end
+

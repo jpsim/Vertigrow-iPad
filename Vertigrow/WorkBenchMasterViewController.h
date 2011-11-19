@@ -4,17 +4,17 @@
 //
 //  Created by hamid poursepanj on 11-11-13.
 //  Copyright (c) 2011 uottawa. All rights reserved.
-//  commit test
+//
 
 #import <UIKit/UIKit.h>
 
 
 @class WorkBenchDetailViewController;
 
-@interface WorkBenchMasterViewController : UITableViewController
+@interface WorkBenchMasterViewController : UITableViewController<UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) WorkBenchDetailViewController *detailViewController;
-@property(nonatomic,retain) NSString *savedData;
+@property(nonatomic,retain) NSMutableArray *savedData;
 
 @property(nonatomic,assign) BOOL isVisible;
 

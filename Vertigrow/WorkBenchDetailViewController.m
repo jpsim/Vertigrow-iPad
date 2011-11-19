@@ -8,10 +8,10 @@
 
 #import "WorkBenchDetailViewController.h"
 #import "WorkBenchMasterViewController.h"
-
+#import <QuartzCore/QuartzCore.h>
 
 #define MG_DEFAULT_SPLIT_POSITION		320.0	// default width of master view in UISplitViewController.
-#define THUMB_HEIGHT 180
+#define THUMB_HEIGHT 150
 #define THUMB_V_PADDING 10
 #define THUMB_H_PADDING 10
 #define CREDIT_LABEL_HEIGHT 20
@@ -22,8 +22,15 @@
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
 - (CGSize)splitViewSizeForOrientation:(UIInterfaceOrientation)theOrientation;
-- (NSArray *)imageNames;
+
+- (void)imageNames;
 - (void)toggleThumbView;
+-(void)addBarButtonsToNavigationController;
+- (IBAction)takePicture:(id)sender;
+- (IBAction)sendEmail:(id)sender;
+- (IBAction)saveImage:(id)sender;
+-(UIImage *)takeViewScreenshot;
+-(NSString *)getDate;
 @end
 
 @implementation WorkBenchDetailViewController
@@ -47,7 +54,7 @@
         // Update the view.
         [self configureView];
     }
-
+    
     if (self.masterPopoverController != nil) {
         [self.masterPopoverController dismissPopoverAnimated:YES];
     }        
@@ -56,7 +63,7 @@
 - (void)configureView
 {
     // Update the user interface for the detail item.
-
+    
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [self.detailItem description];
     }
@@ -77,8 +84,20 @@
     self.masterNavController = [self.splitViewController.viewControllers objectAtIndex:0];
     self.detailNavController = [self.splitViewController.viewControllers objectAtIndex:1];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.ImagesNameArray = [self imageNames];
+    //self.ImagesNameArray = [self imageNames];
+    
+    NSOperationQueue *queue = [NSOperationQueue new];
+    
+    NSInvocationOperation *operation1 = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(imageNames) object:nil];
+    
+    
+    [queue addOperation:operation1];
+    
+    [self addBarButtonsToNavigationController];
+    
     [self configureView];
+    
+    
 }
 
 - (void)viewDidUnload
@@ -96,13 +115,13 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-  
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-  
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -114,7 +133,7 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight );
-   
+    
 }
 
 #pragma mark - Split view
@@ -131,7 +150,7 @@
 	float height = fullSize.height;
     CGRect newFrame = CGRectMake(0, 0, width, height);
     
-       
+    
     newFrame.size.width = _splitPosition;
     masterRect = newFrame;
     
@@ -149,14 +168,14 @@
         
         self.masterNavController.view.frame = masterRect;
         [[[self.splitViewController.viewControllers objectAtIndex:1] view ] setFrame:detailRect];
-   
+        
     }else if( x == 320){
-            
+        
         self.masterNavController.view.frame = CGRectZero;
         [[[self.splitViewController.viewControllers objectAtIndex:1] view ] setFrame:CGRectMake(0, 0, fullSize.width, fullSize.height)];
     }
     
-   [UIView commitAnimations];
+    [UIView commitAnimations];
     
 }
 
@@ -191,7 +210,7 @@
     return YES;
 }  
 
-- (NSArray *)imageNames {
+-(void)imageNames {
     
     // the filenames are stored in a plist in the app bundle, so create array by reading this plist
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Images" ofType:@"plist"];
@@ -205,11 +224,15 @@
         NSLog(@"Failed to read image names. Error: %@", error);
     }
     
-    return imageNames;
+    self.ImagesNameArray = imageNames;
+    
 }
+
+
 - (void)createSlideUpViewIfNecessary {
     
     if (!self.slideUpView) {
+        
         
         [self createThumbScrollViewIfNecessary];
         
@@ -218,16 +241,16 @@
         
         // create container view that will hold scroll view and label
         CGRect frame = CGRectMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds)+44, bounds.size.width,thumbHeight);
-         self.slideUpView = [[UIView alloc] initWithFrame:frame];
+        self.slideUpView = [[UIView alloc] initWithFrame:frame];
         [self.slideUpView setBackgroundColor:[UIColor blackColor]];
         [self.slideUpView setOpaque:NO];
         [self.slideUpView setAlpha:0.75];
         
         [self.detailNavController.view addSubview:self.slideUpView];
-       
+        
         // add subviews to container view
         [self.slideUpView addSubview:self.thumbScrollView];
-                     
+        
     }    
 }
 
@@ -245,15 +268,15 @@
         // and in the course of doing so calculate the content width
         float xPosition = THUMB_H_PADDING;
         for (NSString *name in self.ImagesNameArray) {
-            UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", name]];
-            UIImage *scaledImage = [UIImage imageWithCGImage:[thumbImage CGImage] scale:15 orientation:UIImageOrientationUp];
-           // NSLog(@"higth of image %f", scaledImage.size.height);
-            if (scaledImage) {
-                UIImageView *thumbView = [[UIImageView alloc] initWithImage:scaledImage];
-                ImageViewForScroller *newThumb = [[ImageViewForScroller alloc] initWithImage:scaledImage];
-                newThumb.imageName = [NSString stringWithFormat:@"%@.png", name];
+            UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_thumb.png", name]];
+            //UIImage *scaledImage = [UIImage imageWithCGImage:[thumbImage CGImage] scale:15 orientation:UIImageOrientationUp];
+            // NSLog(@"higth of image %f", scaledImage.size.height);
+            if (thumbImage) {
+                UIImageView *thumbView = [[UIImageView alloc] initWithImage:thumbImage];
+                ImageViewForScroller *newThumb = [[ImageViewForScroller alloc] initWithImage:thumbImage];
+                newThumb.imageName = [NSString stringWithFormat:@"%@_thumb.png", name];
                 [newThumb setDelegate:self];
-               
+                
                 CGRect frame = [thumbView frame];
                 frame.origin.y = THUMB_V_PADDING;
                 frame.origin.x = xPosition;
@@ -263,6 +286,7 @@
                 
                 [self.thumbScrollView addSubview:thumbView];
                 [self.thumbScrollView addSubview:newThumb];
+                
                 [thumbView resignFirstResponder];
                 [newThumb becomeFirstResponder];
                 
@@ -274,13 +298,13 @@
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-   
+    
     [self toggleThumbView];   
 }
- 
+
 
 -(void)panGestureForScrollViewImage:(ImageViewForScroller *)draggingThumb{
-   
+    
     if(draggingThumb.stoppedDragging){
         [draggingThumb removeFromSuperview];
         
@@ -299,7 +323,7 @@
         [newThumb setDelegate:self];
         [self.thumbScrollView addSubview:newThumb];
         [newThumb becomeFirstResponder];
-    
+        
     }
 }
 - (void)toggleThumbView {
@@ -317,5 +341,166 @@
     [UIView commitAnimations];
     
     thumbViewShowing = !thumbViewShowing;
+}
+
+-(void)addBarButtonsToNavigationController{
+    UIToolbar *tools = [[UIToolbar alloc]
+                        initWithFrame:CGRectMake(0.0f, 0.0f, 130.0f, 44.01f)]; // 44.01 shifts it up 1px for some reason
+    tools.clearsContextBeforeDrawing = NO;
+    tools.clipsToBounds = NO;
+    tools.tintColor = [UIColor colorWithWhite:0.305f alpha:0.0f]; // closest I could get by eye to black, translucent style.
+    // anyone know how to get it perfect?
+    tools.barStyle = -1; // clear background
+    NSMutableArray *buttons = [[NSMutableArray alloc] initWithCapacity:3];
+    
+    
+    // Create a standard takePicture button.
+    UIBarButtonItem *bi = [[UIBarButtonItem alloc]
+                           initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(takePicture:)];
+    bi.width = 12.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
+    
+    // Add profile button.
+    bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(sendEmail:)];
+    bi.width = 12.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
+    // Create a spacer.
+    bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveImage:)];
+    bi.width = 12.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
+    // Add buttons to toolbar and toolbar to nav bar.
+    [tools setItems:buttons animated:NO];
+    buttons=nil;
+    
+    UIBarButtonItem *threeButtons = [[UIBarButtonItem alloc] initWithCustomView:tools];
+    tools = nil;
+    
+    //self.navigationItem.rightBarButtonItem = twoButtons;
+    [[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] navigationItem].rightBarButtonItem = threeButtons;
+    threeButtons = nil;
+}
+
+- (IBAction)takePicture:(id)sender{
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    // If our device has a camera, we want to take a picture, otherwise, we
+    // just pick from photo library
+    if ([UIImagePickerController
+         isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+    } else {
+        [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    }
+    // This line of code will generate 2 warnings right now, ignore them
+    [imagePicker setDelegate:self];
+    // Place image picker on the screens
+    [self presentModalViewController:imagePicker animated:YES];
+    // The image picker will be retained by ItemDetailViewController
+    // until it has been dismissed
+    imagePicker=nil;
+}
+
+
+- (void)imagePickerController:(UIImagePickerController *)picker
+didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    // Get picked image from info dictionary
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    UIImageView *cameraPicView = [[UIImageView alloc]initWithImage:image];
+    
+    // save in photo gallery then retrieve it from photogallery
+    [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] addSubview:cameraPicView];
+    
+    cameraPicView = nil;
+    
+    [self configureView];
+    // Take image picker off the screen -
+    // you must call this dismiss method
+    [self dismissModalViewControllerAnimated:YES];
+    
+}
+- (IBAction)sendEmail:(id)sender{
+    
+    MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
+    controller.mailComposeDelegate = self;
+    
+    if([MFMailComposeViewController canSendMail])
+    {
+        [controller setSubject:[NSString stringWithFormat:@"Vertigrow mockup"]];
+        
+        UIImage *image = [self takeViewScreenshot];
+        NSData *imageData = UIImageJPEGRepresentation(image, 0.5);      
+        NSString *filename = [NSString stringWithFormat:@"%@.jpg",[self getDate]];
+        [controller addAttachmentData:imageData mimeType:@"image/jpg" fileName:filename];
+        
+        [controller setMessageBody:[NSString stringWithFormat:@"her is the copy of the mockup!"] isHTML:NO]; 
+        
+        [self presentModalViewController:controller animated:YES];
+    }
+    controller=nil;
+    
+}
+
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    switch (result)
+    
+    {
+            
+        case MFMailComposeResultCancelled:
+            [self dismissModalViewControllerAnimated:YES];
+            break;
+            
+        case MFMailComposeResultSent:
+            [self dismissModalViewControllerAnimated:YES];
+            break;
+            
+        case MFMailComposeResultFailed: 
+            NSLog(@"Failed!");
+            break;
+            
+        case MFMailComposeResultSaved:
+            [self dismissModalViewControllerAnimated:YES];
+            break;
+            
+        default:   
+            NSLog(@"Result: Something went wrong!");           
+            break;
+    }
+    
+}
+
+-(UIImage *)takeViewScreenshot{
+    
+    UIGraphicsBeginImageContext([[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view].bounds.size);
+    
+    [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view ].layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return viewImage;
+}
+- (IBAction)saveImage:(id)sender{
+    
+	UIImageWriteToSavedPhotosAlbum([self takeViewScreenshot], self, nil, nil); 
+}
+-(NSString *)getDate{
+    NSDate* now = [NSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:now];
+    
+    NSDate *date = [dateComponents date];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    gregorian=nil;
+    
+    return dateString;
 }
 @end

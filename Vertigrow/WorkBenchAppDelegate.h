@@ -13,8 +13,9 @@
 @interface WorkBenchAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic, retain) NSMutableArray *savedObjectsArray;
-@property (nonatomic, retain) NSMutableArray *fileNamesArray;
 @property(nonatomic,retain)UISplitViewController *splitViewController;
-@property(nonatomic,retain) NSString *fileName;
+
+@property (nonatomic, retain) NSMutableDictionary *toBeSavedDictionary;
+@property (nonatomic, retain) NSMutableArray *keysArray;
+@property(nonatomic,retain) NSString *key;
 @end
