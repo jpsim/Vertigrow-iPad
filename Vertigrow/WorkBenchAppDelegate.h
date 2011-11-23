@@ -18,4 +18,6 @@
 @property (nonatomic, retain) NSMutableDictionary *toBeSavedDictionary;
 @property (nonatomic, retain) NSMutableArray *keysArray;
 @property(nonatomic,retain) NSString *key;
+@property(nonatomic,retain) NSString *textToAdd;
+
 @end

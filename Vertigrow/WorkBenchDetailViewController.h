@@ -11,6 +11,7 @@
 #import "ImageViewForScroller.h"
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMessageComposeViewController.h>
+#import "NoteViewController.h"
 
 @interface WorkBenchDetailViewController : UIViewController <UISplitViewControllerDelegate,UIGestureRecognizerDelegate,ThumbImageViewDelegate,ImageViewForScrollerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,MFMailComposeViewControllerDelegate>{
     BOOL thumbViewShowing;

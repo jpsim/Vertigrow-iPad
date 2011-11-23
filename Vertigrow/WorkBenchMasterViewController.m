@@ -36,12 +36,18 @@
     
 }
 -(void)setupTableViewForKeys:(NSNotification *)notification{
+    NSLog(@"i am updatedi am updatedi am updatedi am updatedi am updatedi am updatedi am updated");
     if(!self.savedData){
         self.savedData = [[notification userInfo] valueForKey:@"keysArray"];
     }
     if (!self.savedData) {
         self.savedData = [[NSMutableArray alloc] init];
     }
+    if(self.savedData){
+        self.savedData = [[notification userInfo] valueForKey:@"keysArray"];
+    }
+    NSLog(@"self.savedData %d", [self.savedData  count]);
+    [self.tableView reloadData];
     
 }
 - (void)didReceiveMemoryWarning
@@ -146,6 +152,7 @@
         NSUInteger row = [indexPath row]; 
         [self.savedData removeObjectAtIndex:row];
         NSLog(@"self.savedData count %d",[self.savedData count]);
+        
         //send a notification to appdelegate to delete the related key-value from dictionary
         NSDictionary* dict = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:row] forKey:@"keyTobeRemoved"];
         [[NSNotificationCenter defaultCenter]  postNotificationName:@"updateDictionaryNotification" object:self userInfo:dict];

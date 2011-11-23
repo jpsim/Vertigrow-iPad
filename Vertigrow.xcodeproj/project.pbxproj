@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A245BDC6147C712800A43A41 /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A245BDC5147C712800A43A41 /* NoteViewController.m */; };
 		A2B664A714772A7000BDB76B /* Canning_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B6649F14772A7000BDB76B /* Canning_thumb.png */; };
 		A2B664A814772A7000BDB76B /* DoWithLess_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B664A014772A7000BDB76B /* DoWithLess_thumb.png */; };
 		A2B664A914772A7000BDB76B /* FairShare_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B664A114772A7000BDB76B /* FairShare_thumb.png */; };
@@ -39,6 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A245BDC4147C712800A43A41 /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewController.h; sourceTree = "<group>"; };
+		A245BDC5147C712800A43A41 /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
 		A2B6649F14772A7000BDB76B /* Canning_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Canning_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/Canning_thumb.png; sourceTree = "<group>"; };
 		A2B664A014772A7000BDB76B /* DoWithLess_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DoWithLess_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/DoWithLess_thumb.png; sourceTree = "<group>"; };
 		A2B664A114772A7000BDB76B /* FairShare_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FairShare_thumb.png; path = ../../Documents/iphone_projects/ScrollViewSuite/SharedResources/Thumbs/FairShare_thumb.png; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 				A2F1180D14707AC600689A7E /* WorkBenchDetailViewController.m */,
 				A2F118351471903E00689A7E /* ImageViewForScroller.h */,
 				A2F118361471903E00689A7E /* ImageViewForScroller.m */,
+				A245BDC4147C712800A43A41 /* NoteViewController.h */,
+				A245BDC5147C712800A43A41 /* NoteViewController.m */,
 				A2F117FB14707AC500689A7E /* Supporting Files */,
 			);
 			path = Vertigrow;
@@ -254,6 +259,7 @@
 				A2F1180E14707AC600689A7E /* WorkBenchDetailViewController.m in Sources */,
 				A2F118371471903E00689A7E /* ImageViewForScroller.m in Sources */,
 				E870C9401475678C0072D2E5 /* ThumbImageView.m in Sources */,
+				A245BDC6147C712800A43A41 /* NoteViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

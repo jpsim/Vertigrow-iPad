@@ -10,7 +10,10 @@
 
 NSString * const filenamePrefKey = @"filenamePrefKey";
 
-@interface WorkBenchAppDelegate (AuxilaryMethods) 
+@interface WorkBenchAppDelegate (AuxilaryMethods)
+
+
+
 NSString *pathIndocumentDirectory(NSString *fileName);
 - (BOOL)saveChanges;
 - (NSString *)allImageViewsArchivePath;
@@ -20,6 +23,10 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 -(void)setUptTableView;
 -(void)updateDictionary:(NSNotification *)notification;
 -(void)clearDetailControllerMainView;
+-(void)createNewProject:(NSNotification *)notification;
+-(void)grabText:(NSNotification *)notification;
+-(void)addEntryToDictionary;
+-(NSString *)getCurrentDate;
 @end
 
 @implementation WorkBenchAppDelegate
@@ -29,6 +36,7 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 @synthesize keysArray=_keysArray;
 @synthesize key=_key;
 @synthesize toBeSavedDictionary=_toBeSavedDictionary;
+@synthesize textToAdd=_textToAdd;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -37,6 +45,7 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     
     self.splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [self.splitViewController.viewControllers lastObject];
+    
     self.splitViewController.delegate = (id)navigationController.topViewController;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -45,9 +54,18 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateDictionary:)
                                                  name:@"updateDictionaryNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(createNewProject:)
+                                                 name:@"createNewProjectNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(grabText:)
+                                                 name:@"textToBeAdded" object:nil];
+
     
     [self fetchubViewsIfNecessary];
+    
     [self setUptTableView];
+
     
     return YES;
 }
@@ -93,6 +111,28 @@ NSString *pathIndocumentDirectory(NSString *fileName);
      */
     
 }
+
+-(void)grabText:(NSNotification *)notification{
+    NSString *text = [[[notification userInfo] valueForKey:@"textToBeAdded"] stringValue];
+    self.textToAdd = [self.textToAdd stringByAppendingString:text];
+}
+-(void)createNewProject:(NSNotification *)notification{
+    
+    [self addEntryToDictionary];
+    
+    self.keysArray=nil;
+    self.keysArray = [[NSMutableArray alloc] init];
+    [self.keysArray addObjectsFromArray:[self.toBeSavedDictionary allKeys]];
+    
+    //self.dict=nil;
+    //self.dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
+    [self  setUptTableView];
+    
+    [self clearDetailControllerMainView];
+    self.key=nil; 
+    
+}
+
 -(void)clearDetailControllerMainView{
     NSMutableArray *subviewsToBeeleted =[[NSMutableArray alloc] initWithArray:[[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] subviews]];
     
@@ -103,10 +143,11 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 }
 -(void)setUptTableView{
     
-    
-    NSDictionary* dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
+   NSDictionary *dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
+    NSLog(@"self.keysArray %d",[self.keysArray count] );
     [[NSNotificationCenter defaultCenter]  postNotificationName:@"setUptTableViewNotification" object:self userInfo:dict];
 }
+
 -(void)updateDictionary:(NSNotification *)notification{
     
     NSUInteger index = [[[notification userInfo] valueForKey:@"keyTobeRemoved"] intValue];
@@ -123,6 +164,7 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     
     NSUInteger index = [[[notification userInfo] valueForKey:@"index"] intValue];
     NSLog(@"i have got %d",index);
+    
     
     //get the key for the selected project in tableview
     self.key = [self.keysArray objectAtIndex:index];
@@ -200,6 +242,12 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 
 - (BOOL)saveChanges
 {
+    [self addEntryToDictionary];    
+    return ([NSKeyedArchiver archiveRootObject: self.toBeSavedDictionary
+                                        toFile:[self allImageViewsArchivePath]]);
+    
+}
+-(void)addEntryToDictionary{
     //extract all subview from the detailview controller's main view
     NSMutableArray *allsubviewsArray = [[NSMutableArray alloc] init]; 
     
@@ -228,6 +276,7 @@ NSString *pathIndocumentDirectory(NSString *fileName);
             NSValue *transform = [NSValue valueWithCGAffineTransform:view.transform];
             NSLog(@"view.transformForSerialization: %@",NSStringFromCGAffineTransform(view.transform));
             [array insertObject:transform atIndex:3];
+        
             
             [allsubviewsPropertiesArray addObject:array];
             array=nil;
@@ -242,24 +291,47 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     
     allsubviewsArray=nil;
     allsubviewsPropertiesArray=nil;
-    
-    return ([NSKeyedArchiver archiveRootObject: self.toBeSavedDictionary
-                                        toFile:[self allImageViewsArchivePath]]);
-    
+
 }
 -(void)createKey{
     
     
     NSLog(@"the first time");
-    CFUUIDRef newUniqueID = CFUUIDCreate (kCFAllocatorDefault);
+    /*CFUUIDRef newUniqueID = CFUUIDCreate (kCFAllocatorDefault);
     
     // Create a string from unique identifier
     CFStringRef newUniqueIDString =
     CFUUIDCreateString (kCFAllocatorDefault, newUniqueID);
     
     NSString *key  =  (__bridge NSString*)newUniqueIDString;
-    self.key = [NSString stringWithFormat:@"%@.data",key];
+     */
     
+    //self.key = [NSString stringWithFormat:@"%@.data",key];
+   self.key = [self getCurrentDate];
+    NSLog(@" new key %@",self.key);
+    
+}
+-(NSString *)getCurrentDate{
+    NSDate* now = [NSDate date];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
+    [timeFormatter setDateFormat:@"HH:mm:ss"];
+    
+    
+    NSString *theDate = [dateFormatter stringFromDate:now];
+    NSString *theTime = [timeFormatter stringFromDate:now]; 
+    
+    NSString *modifiedTime =  [NSString stringWithFormat:@"/%@", theTime];
+
+    NSString *dateString = [theDate stringByAppendingString:modifiedTime];
+    
+    theDate=nil;
+    theTime=nil;
+    
+    return dateString;
 }
 
 - (NSString *)allImageViewsArchivePath

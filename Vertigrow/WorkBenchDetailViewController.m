@@ -29,6 +29,10 @@
 - (IBAction)takePicture:(id)sender;
 - (IBAction)sendEmail:(id)sender;
 - (IBAction)saveImage:(id)sender;
+- (IBAction)sendNewProjectNot:(id)sender;
+- (IBAction)addNotes:(id)sender;
+- (IBAction)cancelModalView:(id)sender;
+-(IBAction)saveNote:(id)sender;
 -(UIImage *)takeViewScreenshot;
 -(NSString *)getDate;
 @end
@@ -96,6 +100,7 @@
     [self addBarButtonsToNavigationController];
     
     [self configureView];
+   
     
     
 }
@@ -105,11 +110,17 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    self.thumbScrollView=nil;
+    self.slideUpView=nil;
+    self.masterPopoverController=nil;
+    self.detailDescriptionLabel=nil;
+    self.ImagesNameArray=nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -136,7 +147,8 @@
     
 }
 
-#pragma mark - Split view
+#pragma mark - 
+#pragma mark  geometry of splitview 
 
 
 - (IBAction)sildeMasterViewLeftRight:(id)sender {
@@ -210,24 +222,8 @@
     return YES;
 }  
 
--(void)imageNames {
-    
-    // the filenames are stored in a plist in the app bundle, so create array by reading this plist
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Images" ofType:@"plist"];
-    NSData *plistData = [NSData dataWithContentsOfFile:path];
-    NSString *error; NSPropertyListFormat format;
-    NSArray *imageNames = [NSPropertyListSerialization propertyListFromData:plistData
-                                                           mutabilityOption:NSPropertyListImmutable
-                                                                     format:&format
-                                                           errorDescription:&error];
-    if (!imageNames) {
-        NSLog(@"Failed to read image names. Error: %@", error);
-    }
-    
-    self.ImagesNameArray = imageNames;
-    
-}
-
+#pragma mark
+#pragma mark creating SlideUpView and ScrollView and attaching them to main view
 
 - (void)createSlideUpViewIfNecessary {
     
@@ -297,35 +293,6 @@
     }    
 }
 
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    
-    [self toggleThumbView];   
-}
-
-
--(void)panGestureForScrollViewImage:(ImageViewForScroller *)draggingThumb{
-    
-    if(draggingThumb.stoppedDragging){
-        [draggingThumb removeFromSuperview];
-        
-        ThumbImageView *addIt =  [[ThumbImageView alloc] initWithImage:draggingThumb.image];
-        addIt.imageName=draggingThumb.imageName;
-        
-        addIt.center = [self.slideUpView convertPoint:draggingThumb.center toView:self.detailNavController.topViewController.view];
-        [self.view addSubview:addIt];
-        
-        
-        
-        ImageViewForScroller *newThumb = [[ImageViewForScroller alloc] initWithImage:draggingThumb.image];
-        newThumb.imageName=draggingThumb.imageName;
-        newThumb.home = draggingThumb.home;
-        newThumb.frame = draggingThumb.home;
-        [newThumb setDelegate:self];
-        [self.thumbScrollView addSubview:newThumb];
-        [newThumb becomeFirstResponder];
-        
-    }
-}
 - (void)toggleThumbView {
     [self createSlideUpViewIfNecessary]; // no-op if slideUpView has already been created
     CGRect frame = [self.slideUpView frame];
@@ -343,37 +310,136 @@
     thumbViewShowing = !thumbViewShowing;
 }
 
+-(void)imageNames {
+    
+    // the filenames are stored in a plist in the app bundle, so create array by reading this plist
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Images" ofType:@"plist"];
+    NSData *plistData = [NSData dataWithContentsOfFile:path];
+    NSString *error; NSPropertyListFormat format;
+    NSArray *imageNames = [NSPropertyListSerialization propertyListFromData:plistData
+                                                           mutabilityOption:NSPropertyListImmutable
+                                                                     format:&format
+                                                           errorDescription:&error];
+    if (!imageNames) {
+        NSLog(@"Failed to read image names. Error: %@", error);
+    }
+    
+    self.ImagesNameArray = imageNames;
+    
+}
+
+#pragma mark
+#pragma mark functinalities related to panning and touch 
+
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    [self toggleThumbView];   
+}
+
+
+-(void)panGestureForScrollViewImage:(ImageViewForScroller *)draggingThumb{
+    
+    CGPoint draggingThumbCenter = [self.thumbScrollView convertPoint:draggingThumb.frame.origin toView:self.slideUpView];
+    
+    if(draggingThumb.stoppedDragging){
+        
+        if(!CGRectContainsPoint(self.slideUpView.bounds, draggingThumbCenter) ){
+            NSLog(@"the thumb is in slideupview border");
+
+            [draggingThumb removeFromSuperview];
+        
+            ThumbImageView *addIt =  [[ThumbImageView alloc] initWithImage:draggingThumb.image];
+            addIt.imageName=draggingThumb.imageName;
+        
+            addIt.center = [self.slideUpView convertPoint:draggingThumb.center toView:self.detailNavController.topViewController.view];
+            [self.view addSubview:addIt];
+        
+        
+        
+            ImageViewForScroller *newThumb = [[ImageViewForScroller alloc] initWithImage:draggingThumb.image];
+            newThumb.imageName=draggingThumb.imageName;
+            newThumb.home = draggingThumb.home;
+            newThumb.frame = draggingThumb.home;
+            [newThumb setDelegate:self];
+            [self.thumbScrollView addSubview:newThumb];
+            [newThumb becomeFirstResponder];
+        
+        }else{
+            [draggingThumb removeFromSuperview];
+            ImageViewForScroller *newThumb = [[ImageViewForScroller alloc] initWithImage:draggingThumb.image];
+            newThumb.imageName=draggingThumb.imageName;
+            newThumb.home = draggingThumb.home;
+            newThumb.frame = draggingThumb.home;
+            [newThumb setDelegate:self];
+            [self.thumbScrollView addSubview:newThumb];
+            [newThumb becomeFirstResponder];
+
+        }
+    }
+    
+}
+
+-(void)doubleTap:(ThumbImageView *)tappedImage{
+    [tappedImage removeFromSuperview];
+    tappedImage =nil;
+}
+
+-(void)singleTap:(ThumbImageView *)tappedImage{
+    UIView *detailview =[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view];
+    [detailview bringSubviewToFront:tappedImage];
+    detailview=nil;
+}
+
+#pragma mark
+#pragma mark buttons on the UINavigatorController
+
 -(void)addBarButtonsToNavigationController{
     UIToolbar *tools = [[UIToolbar alloc]
-                        initWithFrame:CGRectMake(0.0f, 0.0f, 130.0f, 44.01f)]; // 44.01 shifts it up 1px for some reason
+                        initWithFrame:CGRectMake(0.0f, 0.0f, 170.0f, 44.01f)]; // 44.01 shifts it up 1px for some reason
     tools.clearsContextBeforeDrawing = NO;
     tools.clipsToBounds = NO;
     tools.tintColor = [UIColor colorWithWhite:0.305f alpha:0.0f]; // closest I could get by eye to black, translucent style.
     // anyone know how to get it perfect?
     tools.barStyle = -1; // clear background
     NSMutableArray *buttons = [[NSMutableArray alloc] initWithCapacity:3];
+  
     
-    
-    // Create a standard takePicture button.
-    UIBarButtonItem *bi = [[UIBarButtonItem alloc]
-                           initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(takePicture:)];
-    bi.width = 12.0f;
+    //create a new project  
+    UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(sendNewProjectNot:)];
+    bi.width = 20.0f;
     [buttons addObject:bi];
     bi=nil;
+    
+    // Create a standard takePicture button.
+    bi = [[UIBarButtonItem alloc]
+                           initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(takePicture:)];
+    bi.width = 20.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
     
     
     // Add profile button.
-    bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(sendEmail:)];
-    bi.width = 12.0f;
+    bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sendEmail:)];
+    bi.width = 20.0f;
     [buttons addObject:bi];
     bi=nil;
     
-    // Create a spacer.
+    //add notes to project
+    bi = [[UIBarButtonItem alloc]
+          initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(addNotes:)];
+    bi.width = 20.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
+      //saving screenshot into photo library
     bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveImage:)];
-    bi.width = 12.0f;
+    bi.width = 20.0f;
     [buttons addObject:bi];
     bi=nil;
-    
+
+
     // Add buttons to toolbar and toolbar to nav bar.
     [tools setItems:buttons animated:NO];
     buttons=nil;
@@ -381,10 +447,65 @@
     UIBarButtonItem *threeButtons = [[UIBarButtonItem alloc] initWithCustomView:tools];
     tools = nil;
     
-    //self.navigationItem.rightBarButtonItem = twoButtons;
+  
     [[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] navigationItem].rightBarButtonItem = threeButtons;
     threeButtons = nil;
 }
+- (IBAction)sendNewProjectNot:(id)sender{
+    
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"createNewProjectNotification" object:self userInfo:nil];
+    
+}
+
+- (IBAction)saveImage:(id)sender{
+    
+	UIImageWriteToSavedPhotosAlbum([self takeViewScreenshot], self, nil, nil); 
+}
+
+- (IBAction)addNotes:(id)sender{
+    
+    NoteViewController *NotesController = [[NoteViewController alloc] init];
+  
+    UINavigationController *navcont = [[UINavigationController alloc]
+                                                 initWithRootViewController:NotesController];
+    
+    UIBarButtonItem *biLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelModalView:)];
+     biLeft.width = 20.0f;
+    
+    UIBarButtonItem *biRight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveNote:)];
+    biLeft.width = 20.0f;
+     
+    [NotesController.navigationItem setLeftBarButtonItem:biLeft];
+    [NotesController.navigationItem setRightBarButtonItem:biRight];
+    [NotesController.navigationItem setTitle:@"Note"];
+    
+    navcont.delegate=self;
+    navcont.modalPresentationStyle = UIModalPresentationFormSheet;
+    navcont.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    [self presentModalViewController:navcont animated:YES];
+    
+    navcont.view.superview.bounds = CGRectMake(0, 0, 500, 600);
+    navcont=nil;
+    NotesController=nil;
+    
+}
+-(IBAction)saveNote:(id)sender{
+    
+    NSLog(@"number of subviews %d",[[[[self modalViewController] view] subviews] count]);
+    NSLog(@"childViewControllers %d",[[[self modalViewController] childViewControllers] count]);
+    NSString *text = [[[[[[[self modalViewController] childViewControllers] objectAtIndex:0] view] subviews]objectAtIndex:0] text]; 
+    
+    NSDictionary* dict = [NSDictionary dictionaryWithObject:text forKey:@"textToBeAdded"];
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"setupSubviewsNotification" object:self userInfo:dict];
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
+-(IBAction)cancelModalView:(id)sender{
+    [self dismissModalViewControllerAnimated:YES];
+}
+#pragma mark
+#pragma mark taking picture using camera
 
 - (IBAction)takePicture:(id)sender{
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
@@ -424,6 +545,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
     [self dismissModalViewControllerAnimated:YES];
     
 }
+
+#pragma mark
+#pragma mark attaching picture to email and send it
+
 - (IBAction)sendEmail:(id)sender{
     
     MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
@@ -472,7 +597,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
             NSLog(@"Result: Something went wrong!");           
             break;
     }
-    
+
 }
 
 -(UIImage *)takeViewScreenshot{
@@ -484,10 +609,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIGraphicsEndImageContext();
     return viewImage;
 }
-- (IBAction)saveImage:(id)sender{
-    
-	UIImageWriteToSavedPhotosAlbum([self takeViewScreenshot], self, nil, nil); 
-}
+
 -(NSString *)getDate{
     NSDate* now = [NSDate date];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
