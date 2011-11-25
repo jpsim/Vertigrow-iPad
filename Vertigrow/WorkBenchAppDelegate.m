@@ -350,7 +350,6 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 
         //NSLog(@"savedSubviewsArray count : %d", [savedSubviewsArray count]);
         
-            
           for(NSMutableArray *propertiesArray in savedSubviewsArray){
             
              

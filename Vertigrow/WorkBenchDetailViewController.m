@@ -12,7 +12,7 @@
 
 #define MG_DEFAULT_SPLIT_POSITION  320.0	// default width of master view in UISplitViewController.
 #define THUMB_HEIGHT 150
-#define THUMB_V_PADDING 10
+#define THUMB_V_PADDING 40
 #define THUMB_H_PADDING 10
 #define CREDIT_LABEL_HEIGHT 20
 #define AUTOSCROLL_THRESHOLD 30
@@ -240,7 +240,7 @@
         float thumbHeight = [self.thumbScrollView frame].size.height;
         
         // create container view that will hold scroll view and label
-        CGRect frame = CGRectMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds)+44, bounds.size.width,thumbHeight);
+        CGRect frame = CGRectMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds)+44, bounds.size.width,thumbHeight+20);
         self.slideUpView = [[UIView alloc] initWithFrame:frame];
         [self.slideUpView setBackgroundColor:[UIColor blackColor]];
         [self.slideUpView setOpaque:NO];
@@ -286,6 +286,19 @@
                 
                 [self.thumbScrollView addSubview:thumbView];
                 [self.thumbScrollView addSubview:newThumb];
+                
+                //add label
+                CGFloat imageHeight = CGImageGetHeight(thumbImage.CGImage);
+                CGFloat imageWidth = CGImageGetWidth(thumbImage.CGImage);
+                
+                CGRect labelFrame = CGRectMake(frame.origin.x, frame.origin.y+ imageHeight , imageWidth, 20);
+                
+                UILabel *label = [[UILabel alloc] initWithFrame:labelFrame];          
+                label.text = name;
+                label.backgroundColor = [UIColor clearColor];
+                label.textColor = [UIColor whiteColor];
+                label.textAlignment = UITextAlignmentCenter;
+                [self.thumbScrollView addSubview:label];
                 
                 [thumbView resignFirstResponder];
                 [newThumb becomeFirstResponder];
