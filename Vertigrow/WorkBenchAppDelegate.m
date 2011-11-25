@@ -23,10 +23,14 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 -(void)setUptTableView;
 -(void)updateDictionary:(NSNotification *)notification;
 -(void)clearDetailControllerMainView;
+-(void)saveProject:(NSNotification *)notification;
 -(void)createNewProject:(NSNotification *)notification;
 -(void)grabText:(NSNotification *)notification;
 -(void)addEntryToDictionary;
+-(void)addEmptyEntryToDictionary;
 -(NSString *)getCurrentDate;
+
+
 @end
 
 @implementation WorkBenchAppDelegate
@@ -37,7 +41,9 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 @synthesize key=_key;
 @synthesize toBeSavedDictionary=_toBeSavedDictionary;
 @synthesize textToAdd=_textToAdd;
-
+@synthesize projectSelected=_projectSelected;
+@synthesize notesArray=_notesArray;
+@synthesize currentIndex=_currentIndex;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -55,11 +61,16 @@ NSString *pathIndocumentDirectory(NSString *fileName);
                                              selector:@selector(updateDictionary:)
                                                  name:@"updateDictionaryNotification" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(createNewProject:)
-                                                 name:@"createNewProjectNotification" object:nil];
+                                             selector:@selector(saveProject:)
+                                                 name:@"saveProjecttNotification" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(grabText:)
-                                                 name:@"textToBeAdded" object:nil];
+                                                 name:@"textToBeAddedNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(createNewProject:)
+                                                 name:@"createNewProjectNotification" object:nil];
+    
+
 
     
     [self fetchubViewsIfNecessary];
@@ -111,29 +122,138 @@ NSString *pathIndocumentDirectory(NSString *fileName);
      */
     
 }
-
+//receive the text that is passed by detailviewcontroller
 -(void)grabText:(NSNotification *)notification{
-    NSString *text = [[[notification userInfo] valueForKey:@"textToBeAdded"] stringValue];
-    self.textToAdd = [self.textToAdd stringByAppendingString:text];
+   
+    NSString *text = [[notification userInfo] valueForKey:@"textToBeAdded"];
+    NSLog(@"receive the text--%@-- that is passed from detailviewcontroller",text);
+    
+    if(text){ 
+        
+        NSLog(@"check the index of selected row --%d--intable",self.currentIndex);
+        //check the index of selected row intable
+        if(self.currentIndex>=0){
+        
+            //grab the text saved on disk from previous sesion
+            //NSString *temp= [self.notesArray objectAtIndex:self.currentIndex];  
+            //NSLog(@"grab the text saved on disk from previous sesion --%@--",temp);
+            
+            if([text length]>0){
+                //temp = [temp stringByAppendingString:[NSString stringWithFormat: @"%@\t", text]];
+            
+            
+                //update dictionary with the new value
+                NSUInteger indexOfLastObject = [[self.toBeSavedDictionary objectForKey:self.key] count];
+                [[self.toBeSavedDictionary objectForKey:self.key] replaceObjectAtIndex:(indexOfLastObject-1) withObject:text];
+            
+                [self.notesArray replaceObjectAtIndex:self.currentIndex withObject:text];
+                }
+            //temp=nil;
+            
+            NSLog(@"add the recieved text to the text from the revious session --%@--: ",[self.notesArray objectAtIndex:self.currentIndex]);
+            }else{
+        
+                NSLog(@"no project is selected!");
+                UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Error!"
+                                                          message:@"Please select a project first!"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        
+                [message show];
+                message=nil;
+
+            }
+    }
 }
 -(void)createNewProject:(NSNotification *)notification{
+
+    self.key=nil;
+    self.currentIndex=-1;
+    self.textToAdd=@"";
     
-    [self addEntryToDictionary];
+    [self clearDetailControllerMainView];
     
+    [self addEmptyEntryToDictionary];
+    NSLog(@"create a new project by adding a an empty entry to dictionary");
+     
+   /* 
+    NSDictionary* dicti = [NSDictionary dictionaryWithObject:self.notesArray forKey:@"notesArrayToUpdate"];
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"notesArrayToUpdateNotification" object:self userInfo:dicti];
+    dicti=nil;
+
+    NSLog(@"self.notesArray count %d", [self.notesArray count]);
+    
+    */
+    [self  setUptTableView];
+    self.projectSelected=NO;
+    
+}
+-(void)addEmptyEntryToDictionary{
+    
+    //add an empty entry to the dictionary
+    
+    [self createKey];
+    
+    //NSMutableArray *array = [[NSMutableArray alloc] init];
+    
+    NSMutableArray *allsubviewsPropertiesArray = [[NSMutableArray alloc] init]; 
+    
+    //[allsubviewsPropertiesArray addObject:array];    
+    [allsubviewsPropertiesArray addObject:@""];
+    
+    [self.toBeSavedDictionary setObject:allsubviewsPropertiesArray forKey:self.key];
+    
+    allsubviewsPropertiesArray=nil;
+    
+    //when an empty entry is added to the dictionary self.keysArray should be updated
     self.keysArray=nil;
     self.keysArray = [[NSMutableArray alloc] init];
     [self.keysArray addObjectsFromArray:[self.toBeSavedDictionary allKeys]];
     
-    //self.dict=nil;
-    //self.dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
-    [self  setUptTableView];
+    //when an empty entry is added to the dictionary self.notesArray should be updated
+    self.notesArray=nil;
+    self.notesArray = [[NSMutableArray alloc] init];
     
-    [self clearDetailControllerMainView];
-    self.key=nil; 
+    NSMutableArray *temp = [[NSMutableArray alloc] initWithArray:[self.toBeSavedDictionary allValues]];
+    for (NSMutableArray *value in temp) {
+        
+        [self.notesArray addObject:[value lastObject]];
+    } 
+    temp=nil;
     
+}
+-(void)saveProject:(NSNotification *)notification{
+    
+    NSLog(@"--saveProject--");
+    if(self.currentIndex!=-1){
+        
+        [self addEntryToDictionary];
+    
+        //self.keysArray=nil;
+        //self.keysArray = [[NSMutableArray alloc] init];
+        //[self.keysArray addObjectsFromArray:[self.toBeSavedDictionary allKeys]];
+    
+        //self.dict=nil;
+        //self.dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
+        //[self  setUptTableView];
+    
+        //[self clearDetailControllerMainView];
+        //self.key=nil;
+    }else{
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Error!"
+                                                          message:@"Please select a project first!"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        
+        [message show];
+        message=nil;
+    }
 }
 
 -(void)clearDetailControllerMainView{
+    
     NSMutableArray *subviewsToBeeleted =[[NSMutableArray alloc] initWithArray:[[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] subviews]];
     
     for (ThumbImageView *view in subviewsToBeeleted) {
@@ -143,53 +263,96 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 }
 -(void)setUptTableView{
     
-   NSDictionary *dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
-    NSLog(@"self.keysArray %d",[self.keysArray count] );
+    NSLog(@"setUptTableView is called and self.keyArray is passed to masterViewController!");
+    NSDictionary *dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
+    NSLog(@"self.keysArray has %d elements before it is passed to masterViewController",[self.keysArray count] );
     [[NSNotificationCenter defaultCenter]  postNotificationName:@"setUptTableViewNotification" object:self userInfo:dict];
+    
 }
 
 -(void)updateDictionary:(NSNotification *)notification{
     
+    NSLog(@"updateDictionary is called!");
+    self.currentIndex=-1;
+    self.textToAdd=@"";
+    
     NSUInteger index = [[[notification userInfo] valueForKey:@"keyTobeRemoved"] intValue];
+    
     NSString *keytTobeRemoved = [[self.toBeSavedDictionary allKeys] objectAtIndex:index];
     [self.toBeSavedDictionary removeObjectForKey:keytTobeRemoved];
-    NSLog(@"self.keysArray %d", [self.keysArray count]);
     
+    //update keys array 
+    self.keysArray=nil;
+    self.keysArray = [[NSMutableArray alloc] init];
+    [self.keysArray addObjectsFromArray:[self.toBeSavedDictionary allKeys]];
+    
+    self.key=nil;
+
+    //I have to update self.notesArray but the above code delete the whole array including the note as well so there is no need for further action
+
+    //NSLog(@"self.keysArray %d", [self.keysArray count]);
+    NSLog(@"the current key is: %@ ", self.key);
     [self clearDetailControllerMainView];
     
 }
 -(void)setupSubviews:(NSNotification *)notification{
     
+
     [self clearDetailControllerMainView];
+    NSLog(@"clearDetailControllerMainView is called to clean up detailview from all its subviews");
     
-    NSUInteger index = [[[notification userInfo] valueForKey:@"index"] intValue];
-    NSLog(@"i have got %d",index);
+    NSInteger index = [[[notification userInfo] valueForKey:@"index"] intValue];
+    NSLog(@"setupSubviews is called because a row number %d is selected",index);
     
+    self.currentIndex=index;
+    NSLog(@"self.currentIndex is updated to the selected row index");
+    
+    self.projectSelected= YES;
     
     //get the key for the selected project in tableview
     self.key = [self.keysArray objectAtIndex:index];
-    NSLog(@"self.key %@", self.key);
+    NSLog(@"Now we get the key  for the selected row from self.keysArray and initialize the self.key to --%@-- , this is the key for the currently selected row", self.key);
     
+    self.textToAdd = [self.notesArray objectAtIndex:index];
+    NSLog(@"Grab the text and send it to detailviewcontroller to be shown in modal view for notes --%@--", self.textToAdd);
+    
+    //send self.textToAdd to detailviewcontroller
+    NSDictionary* dict = [NSDictionary dictionaryWithObject:self.textToAdd forKey:@"selftextToAdd"];
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"selftextToAddNotification" object:self userInfo:dict];
+    dict=nil;
+    
+    /*
+    NSDictionary* dicti = [NSDictionary dictionaryWithObject:self.notesArray forKey:@"notesArrayToUpdate"];
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"notesArrayToUpdateNotification" object:self userInfo:dicti];
+    dicti=nil;
+    */
     
     //get the array containing all the subviews serialized properties required for the recreation of suviews
-    NSArray *savedSubviewsArray = [self.toBeSavedDictionary objectForKey:self.key];
-    NSLog(@"there are %d subviews to be added!", [savedSubviewsArray count]);
     
+    NSMutableArray *savedSubviewsArray = [self.toBeSavedDictionary objectForKey:self.key];
     
-    if(savedSubviewsArray){
+    //NSLog(@"there are %d subviews to be added!", [savedSubviewsArray count]);
+    
+    if(savedSubviewsArray && ![[savedSubviewsArray objectAtIndex:0] isKindOfClass:[NSString class]] ){
+
+        //NSLog(@"savedSubviewsArray count : %d", [savedSubviewsArray count]);
         
-        for(NSMutableArray *propertiesArray in savedSubviewsArray){
             
-            //grab the name of the image file located on Supporting Files Directory
+          for(NSMutableArray *propertiesArray in savedSubviewsArray){
+            
+             
+              if([ propertiesArray isKindOfClass:[NSString class]]){
+                  NSLog(@"I grabbed %@ which is string so i continue to the next element!",propertiesArray);
+                  continue;
+              }
+              
+              //grab the name of the image file located on Supporting Files Directory
             NSString *fileName = [propertiesArray objectAtIndex:0];
-            NSLog(@" i am going to grab %@ image",fileName);
+            //NSLog(@" i am going to grab %@ image",fileName);
             
             //grab the imgae with the same file name
             UIImage *thumbImage = [UIImage imageNamed:fileName];
-            
-            //scale the image 
-            //UIImage *scaledImage = [UIImage imageWithCGImage:[thumbImage CGImage] scale:15 orientation:UIImageOrientationUp];
-            
+              
             // create the ThumbImageView to be added to the detailviewcontrollers's main view 
             ThumbImageView *addIt =  [[ThumbImageView alloc] initWithImage:thumbImage];
             
@@ -197,13 +360,13 @@ NSString *pathIndocumentDirectory(NSString *fileName);
             addIt.imageName = [propertiesArray objectAtIndex:0]; 
             
             addIt.center = [[propertiesArray objectAtIndex:1] CGPointValue];
-            NSLog(@"addIt.center %@", NSStringFromCGPoint(addIt.center));
+            //NSLog(@"addIt.center %@", NSStringFromCGPoint(addIt.center));
             
             addIt.bounds = [[propertiesArray objectAtIndex:2] CGRectValue]; 
-            NSLog(@"addIt.bounds: %@", NSStringFromCGRect(addIt.bounds));
+            //NSLog(@"addIt.bounds: %@", NSStringFromCGRect(addIt.bounds));
             
             addIt.transform = [[propertiesArray objectAtIndex:3] CGAffineTransformValue];
-            NSLog(@"addIt.transform: %@",NSStringFromCGAffineTransform(addIt.transform));
+            //NSLog(@"addIt.transform: %@",NSStringFromCGAffineTransform(addIt.transform));
             
             //add the image to the detailviewcontrollers's main view 
             [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] addSubview:addIt];
@@ -212,10 +375,13 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     }
     
     savedSubviewsArray= nil;
+
 }
 
 - (void)fetchubViewsIfNecessary
 {
+    NSLog(@"fetchubViewsIfNecessary is called when program runs for the first time");  
+    self.projectSelected=NO;
     
     if(!self.toBeSavedDictionary){
         NSString *path =[self allImageViewsArchivePath];
@@ -228,31 +394,76 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     }
     
     //if the dictionary is not empty it means there exists at least one project
+    NSLog(@"initialize keysArray to an empty Array!");
     if(!self.keysArray){
         
         self.keysArray = [[NSMutableArray alloc] init];
     }
-    
+    NSLog(@"chck if there is any saved project on the disk, if yes then populate the keysArray with all the keys in the dictionary saved on the disk! ");
     if([self.toBeSavedDictionary count]>0){  
         
         [self.keysArray addObjectsFromArray:[self.toBeSavedDictionary allKeys]];
         
     }
+    NSLog(@"initialize notesArray to an empty Array!");
+    if(!self.notesArray){
+        self.notesArray =[[NSMutableArray alloc] init];
+    }
+    
+    //NSLog(@"count %d",[self.toBeSavedDictionary count]);
+    NSLog(@"check to see if there is any saved project on the disk");
+    if([self.toBeSavedDictionary count]>0){ 
+        
+        NSMutableArray *temp = [[NSMutableArray alloc] initWithArray:[self.toBeSavedDictionary allValues]];
+        
+        //NSLog(@"temp count %d", [temp count]);
+        for (NSMutableArray *value in temp) {
+            [self.notesArray addObject:[value lastObject]];  
+            
+        } 
+        //NSLog(@"self.notesArray count: %d",[self.notesArray count]);
+        temp=nil;
+        NSLog(@"iterate through all the projects and save related notes to a new array called self.notesArray which has %d elements",[self.notesArray count]);
+    }
+    
+    if(!self.textToAdd){
+        self.textToAdd=@"";
+    }
+    NSLog(@"self.currentIndex represents the index of selected row in the table, at this time it is initialized to -1 which means there is no project selected! ");
+    
+    self.currentIndex=-1;
+   // NSLog(@"exit fetchubViewsIfNecessary");
+    
 }
 
 - (BOOL)saveChanges
 {
-    [self addEntryToDictionary];    
+    NSLog(@"saveChanges");
+  
+    NSUInteger i=0;
+    for (NSMutableArray *element in [self.toBeSavedDictionary allValues]) {
+       
+        NSUInteger lastIndex = [element count];
+        
+        [element replaceObjectAtIndex:(lastIndex-1) withObject:[self.notesArray objectAtIndex:i]];
+        i++;
+    }
+    //[self addEntryToDictionary]; 
+    
     return ([NSKeyedArchiver archiveRootObject: self.toBeSavedDictionary
                                         toFile:[self allImageViewsArchivePath]]);
     
 }
 -(void)addEntryToDictionary{
+    
+    NSLog(@"addEntryToDictionary is called!");
+    
     //extract all subview from the detailview controller's main view
     NSMutableArray *allsubviewsArray = [[NSMutableArray alloc] init]; 
     
     [allsubviewsArray addObjectsFromArray:[[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] subviews]]; 
-    NSLog(@"allsubviewsArray: %d ", [allsubviewsArray count]);
+    
+    //NSLog(@"allsubviewsArray: %d ", [allsubviewsArray count]);
     
     NSMutableArray *allsubviewsPropertiesArray = [[NSMutableArray alloc] init]; 
     if ([allsubviewsArray count]>0) {
@@ -265,16 +476,16 @@ NSString *pathIndocumentDirectory(NSString *fileName);
             [array insertObject:view.imageName atIndex:0];
             
             NSValue *frameCenter = [NSValue valueWithCGPoint:view.center];
-            NSLog(@"view.frameCenterForSerialization: %@", NSStringFromCGPoint(view.center));
+            //NSLog(@"view.frameCenterForSerialization: %@", NSStringFromCGPoint(view.center));
             [array insertObject:frameCenter atIndex:1];
             
             
             NSValue *bound = [NSValue valueWithCGRect:view.bounds];
-            NSLog(@"view.boundForSerialization: %@", NSStringFromCGRect(view.bounds));
+            //NSLog(@"view.boundForSerialization: %@", NSStringFromCGRect(view.bounds));
             [array insertObject:bound atIndex:2];
             
             NSValue *transform = [NSValue valueWithCGAffineTransform:view.transform];
-            NSLog(@"view.transformForSerialization: %@",NSStringFromCGAffineTransform(view.transform));
+            //NSLog(@"view.transformForSerialization: %@",NSStringFromCGAffineTransform(view.transform));
             [array insertObject:transform atIndex:3];
         
             
@@ -282,21 +493,22 @@ NSString *pathIndocumentDirectory(NSString *fileName);
             array=nil;
         }
     }  
-    NSLog(@"allsubviewsPropertiesArray count: %d",[allsubviewsPropertiesArray count]);
+    
+    NSString *temp = [[self.toBeSavedDictionary objectForKey:self.key] lastObject];
+    [allsubviewsPropertiesArray addObject:temp];
+    //NSLog(@"allsubviewsPropertiesArray count: %d",[allsubviewsPropertiesArray count]);
     if(!self.key){
         [self createKey];
     }
     [self.toBeSavedDictionary setObject:allsubviewsPropertiesArray forKey:self.key];
-    NSLog(@"self.toBeSavedDictionary count %d", [self.toBeSavedDictionary count]);
+    //NSLog(@"self.toBeSavedDictionary count %d", [self.toBeSavedDictionary count]);
     
     allsubviewsArray=nil;
     allsubviewsPropertiesArray=nil;
 
 }
 -(void)createKey{
-    
-    
-    NSLog(@"the first time");
+
     /*CFUUIDRef newUniqueID = CFUUIDCreate (kCFAllocatorDefault);
     
     // Create a string from unique identifier
@@ -308,10 +520,11 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     
     //self.key = [NSString stringWithFormat:@"%@.data",key];
    self.key = [self getCurrentDate];
-    NSLog(@" new key %@",self.key);
+   NSLog(@"createKey is called and key: %@  is created!",self.key);
     
 }
 -(NSString *)getCurrentDate{
+    NSLog(@"getCurrentDate");
     NSDate* now = [NSDate date];
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];

@@ -9,15 +9,19 @@
 #import "NoteViewController.h"
 
 @implementation NoteViewController
-
+@synthesize text=_text;
 
 -(void)viewDidLoad{
     UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0,0,500,600)];
      [self.view addSubview:textView];
+    textView.text =self.text;
     textView=nil;
     
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     return (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight );
+}
+-(void)viewDidUnload{
+    self.text=nil;
 }
 @end

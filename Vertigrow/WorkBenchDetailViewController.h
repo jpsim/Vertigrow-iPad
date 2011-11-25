@@ -25,6 +25,7 @@
 @property(nonatomic,retain) UIScrollView *thumbScrollView;
 @property(nonatomic,retain)UIView       *slideUpView; // Contains thumbScrollView and a label giving credit for the images.
 @property(nonatomic,retain) NSArray *ImagesNameArray;
+@property(nonatomic,retain) NSString *notesText;
 
 
 - (IBAction)sildeMasterViewLeftRight:(id)sender;

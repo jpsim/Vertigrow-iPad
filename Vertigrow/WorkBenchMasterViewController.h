@@ -15,7 +15,7 @@
 
 @property (strong, nonatomic) WorkBenchDetailViewController *detailViewController;
 @property(nonatomic,retain) NSMutableArray *savedData;
-
+//@property(nonatomic,retain)NSMutableArray *notesArray;
 @property(nonatomic,assign) BOOL isVisible;
 
 @end

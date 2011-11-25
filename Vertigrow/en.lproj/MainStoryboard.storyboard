@@ -30,7 +30,7 @@
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Detail" id="52">
+                    <navigationItem key="navigationItem" title="New Project" id="52">
                         <barButtonItem key="leftBarButtonItem" title="Show" id="WuT-8A-u1b">
                             <connections>
                                 <action selector="sildeMasterViewLeftRight:" destination="4" id="oHn-Mq-LCq"/>
@@ -72,7 +72,7 @@
                             <outlet property="delegate" destination="19" id="21"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="39"/>
+                    <navigationItem key="navigationItem" title="Projects" id="39"/>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="843" y="-179"/>

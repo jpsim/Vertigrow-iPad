@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NoteViewController : UIViewController
-
+@property(nonatomic,retain) NSString *text;
 @end

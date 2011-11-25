@@ -19,5 +19,7 @@
 @property (nonatomic, retain) NSMutableArray *keysArray;
 @property(nonatomic,retain) NSString *key;
 @property(nonatomic,retain) NSString *textToAdd;
-
+@property(nonatomic,assign) BOOL projectSelected;
+@property(nonatomic,retain) NSMutableArray *notesArray;
+@property(nonatomic,assign) NSInteger currentIndex;
 @end

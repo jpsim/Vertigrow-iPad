@@ -11,6 +11,8 @@
 
 @interface WorkBenchMasterViewController (utilities) 
 -(void)setupTableViewForKeys:(NSNotification *)notification;
+//-(void)grabNotesArray:(NSNotification *)notification;
+-(void)addCreateNewProjectButtonNavigationController;
 @end
 
 @implementation WorkBenchMasterViewController
@@ -18,7 +20,7 @@
 @synthesize detailViewController = _detailViewController;
 @synthesize isVisible=_isVisible;
 @synthesize savedData=_savedData;
-
+//@synthesize notesArray=_notesArray;
 - (void)awakeFromNib
 
 {  
@@ -30,23 +32,45 @@
                                              selector:@selector(setupTableViewForKeys:)
                                                  name:@"setUptTableViewNotification" object:nil];
     
+    /*[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(grabNotesArray:)
+                                                 name:@"notesArrayToUpdateNotification" object:nil];*/
+    
     
     [super awakeFromNib];
     
     
 }
+/*-(void)grabNotesArray:(NSNotification *)notification{
+    if(!self.notesArray){
+        self.notesArray = [[notification userInfo] valueForKey:@"notesArrayToUpdate"];
+    }
+    if (!self.notesArray) {
+        self.notesArray = [[NSMutableArray alloc] init];
+    }
+    if(self.notesArray){
+        self.notesArray = [[notification userInfo] valueForKey:@"notesArrayToUpdate"];
+    }
+}*/
 -(void)setupTableViewForKeys:(NSNotification *)notification{
-    NSLog(@"i am updatedi am updatedi am updatedi am updatedi am updatedi am updatedi am updated");
+    
+    //update self.savedData with the new self.keysArray
+    if(self.savedData){
+        
+        self.savedData = [[NSMutableArray alloc] init];
+        self.savedData = [[notification userInfo] valueForKey:@"keysArray"];
+        NSLog(@"i am populating self.savedData with self.keysArray again! but why?");
+    }
+    NSLog(@"setupTableViewForKeys method in mastredetail controller is called ");
     if(!self.savedData){
         self.savedData = [[notification userInfo] valueForKey:@"keysArray"];
+        NSLog(@"self.savedData is populated with self.keysarray data and has %d elements", [self.savedData count]);
     }
     if (!self.savedData) {
         self.savedData = [[NSMutableArray alloc] init];
+        NSLog(@"self.saveData is initialized to an empty array because there self.keysArray is empty");
     }
-    if(self.savedData){
-        self.savedData = [[notification userInfo] valueForKey:@"keysArray"];
-    }
-    NSLog(@"self.savedData %d", [self.savedData  count]);
+    
     [self.tableView reloadData];
     
 }
@@ -64,7 +88,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.detailViewController = (WorkBenchDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     //[self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionMiddle];
-    
+    [self addCreateNewProjectButtonNavigationController];
 }
 
 
@@ -97,7 +121,21 @@
 {
 	[super viewDidDisappear:animated];
 }
+-(void)addCreateNewProjectButtonNavigationController{
+    
+    //add button to master controller
+    UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createNewProject:)];
+    bi.width = 20.0f;
+    
+    [[[[self.splitViewController.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0] navigationItem].rightBarButtonItem =bi;
+    bi=nil;
 
+}
+- (IBAction)createNewProject:(id)sender{
+    NSLog(@"a notification sent to AppDelegate asking for creation of a new project");
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"createNewProjectNotification" object:self userInfo:nil];
+    
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -128,8 +166,15 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     NSUInteger row = [indexPath row];
+    
+    NSString *projectDate = [self.savedData objectAtIndex:row];
+    NSLog(@"row number %d with the content of --%@-- is selected",row,projectDate);
+    
+    [[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] navigationItem].title=projectDate;
+    
     NSDictionary* dict = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:row] forKey:@"index"];
     [[NSNotificationCenter defaultCenter]  postNotificationName:@"setupSubviewsNotification" object:self userInfo:dict];
+    NSLog(@"the index for selected row is passed to AppDelegate via notification");
 }
 
 
@@ -150,14 +195,19 @@
         // Delete the row from the data source.
         
         NSUInteger row = [indexPath row]; 
+        NSLog(@"key for the row to be removed: %@ ",[self.savedData objectAtIndex:row]);
+        
         [self.savedData removeObjectAtIndex:row];
-        NSLog(@"self.savedData count %d",[self.savedData count]);
+        //NSLog(@"self.savedData count %d",[self.savedData count]);
         
         //send a notification to appdelegate to delete the related key-value from dictionary
         NSDictionary* dict = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:row] forKey:@"keyTobeRemoved"];
         [[NSNotificationCenter defaultCenter]  postNotificationName:@"updateDictionaryNotification" object:self userInfo:dict];
         
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        //update the title of the detailviewcontroller
+        [[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] navigationItem].title=@"New Project";
         
     }else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.

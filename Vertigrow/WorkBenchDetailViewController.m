@@ -10,7 +10,7 @@
 #import "WorkBenchMasterViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define MG_DEFAULT_SPLIT_POSITION		320.0	// default width of master view in UISplitViewController.
+#define MG_DEFAULT_SPLIT_POSITION  320.0	// default width of master view in UISplitViewController.
 #define THUMB_HEIGHT 150
 #define THUMB_V_PADDING 10
 #define THUMB_H_PADDING 10
@@ -29,12 +29,13 @@
 - (IBAction)takePicture:(id)sender;
 - (IBAction)sendEmail:(id)sender;
 - (IBAction)saveImage:(id)sender;
-- (IBAction)sendNewProjectNot:(id)sender;
+- (IBAction)saveProjectNot:(id)sender;
 - (IBAction)addNotes:(id)sender;
 - (IBAction)cancelModalView:(id)sender;
 -(IBAction)saveNote:(id)sender;
 -(UIImage *)takeViewScreenshot;
 -(NSString *)getDate;
+-(void)grabTextToAdd:(NSNotification *)notification;
 @end
 
 @implementation WorkBenchDetailViewController
@@ -47,6 +48,7 @@
 @synthesize thumbScrollView=_thumbScrollView;
 @synthesize detailNavController=_detailNavController;
 @synthesize ImagesNameArray=_ImagesNameArray;
+@synthesize notesText=_notesText;
 
 #pragma mark - Managing the detail item
 
@@ -94,6 +96,9 @@
     
     NSInvocationOperation *operation1 = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(imageNames) object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(grabTextToAdd:)
+                                                 name:@"selftextToAddNotification" object:nil];
     
     [queue addOperation:operation1];
     
@@ -115,6 +120,7 @@
     self.masterPopoverController=nil;
     self.detailDescriptionLabel=nil;
     self.ImagesNameArray=nil;
+    self.notesText=nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -366,6 +372,7 @@
             [newThumb becomeFirstResponder];
         
         }else{
+            
             [draggingThumb removeFromSuperview];
             ImageViewForScroller *newThumb = [[ImageViewForScroller alloc] initWithImage:draggingThumb.image];
             newThumb.imageName=draggingThumb.imageName;
@@ -381,11 +388,15 @@
 }
 
 -(void)doubleTap:(ThumbImageView *)tappedImage{
+    
+    NSLog(@"double tap is selected");
     [tappedImage removeFromSuperview];
-    tappedImage =nil;
+    
+    //tappedImage =nil;
 }
 
 -(void)singleTap:(ThumbImageView *)tappedImage{
+     
     UIView *detailview =[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view];
     [detailview bringSubviewToFront:tappedImage];
     detailview=nil;
@@ -396,7 +407,7 @@
 
 -(void)addBarButtonsToNavigationController{
     UIToolbar *tools = [[UIToolbar alloc]
-                        initWithFrame:CGRectMake(0.0f, 0.0f, 170.0f, 44.01f)]; // 44.01 shifts it up 1px for some reason
+                        initWithFrame:CGRectMake(0.0f, 0.0f, 190.0f, 44.01f)]; // 44.01 shifts it up 1px for some reason
     tools.clearsContextBeforeDrawing = NO;
     tools.clipsToBounds = NO;
     tools.tintColor = [UIColor colorWithWhite:0.305f alpha:0.0f]; // closest I could get by eye to black, translucent style.
@@ -406,7 +417,7 @@
   
     
     //create a new project  
-    UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(sendNewProjectNot:)];
+    UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(saveProjectNot:)];
     bi.width = 20.0f;
     [buttons addObject:bi];
     bi=nil;
@@ -417,8 +428,6 @@
     bi.width = 20.0f;
     [buttons addObject:bi];
     bi=nil;
-    
-    
     
     // Add profile button.
     bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sendEmail:)];
@@ -451,9 +460,10 @@
     [[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] navigationItem].rightBarButtonItem = threeButtons;
     threeButtons = nil;
 }
-- (IBAction)sendNewProjectNot:(id)sender{
+
+- (IBAction)saveProjectNot:(id)sender{
     
-    [[NSNotificationCenter defaultCenter]  postNotificationName:@"createNewProjectNotification" object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"saveProjecttNotification" object:self userInfo:nil];
     
 }
 
@@ -466,6 +476,7 @@
     
     NoteViewController *NotesController = [[NoteViewController alloc] init];
   
+    NotesController.text=self.notesText;
     UINavigationController *navcont = [[UINavigationController alloc]
                                                  initWithRootViewController:NotesController];
     
@@ -490,16 +501,22 @@
     NotesController=nil;
     
 }
--(IBAction)saveNote:(id)sender{
+-(void)grabTextToAdd:(NSNotification *)notification{
     
-    NSLog(@"number of subviews %d",[[[[self modalViewController] view] subviews] count]);
-    NSLog(@"childViewControllers %d",[[[self modalViewController] childViewControllers] count]);
+    self.notesText = [[notification userInfo] valueForKey:@"selftextToAdd"];
+    NSLog(@"text to be shown in modelView is received --%@--", self.notesText);
+    
+}
+//grab the text from modal view and pass it with a notification to AppDelegate
+-(IBAction)saveNote:(id)sender{
+   
     NSString *text = [[[[[[[self modalViewController] childViewControllers] objectAtIndex:0] view] subviews]objectAtIndex:0] text]; 
     
     NSDictionary* dict = [NSDictionary dictionaryWithObject:text forKey:@"textToBeAdded"];
-    [[NSNotificationCenter defaultCenter]  postNotificationName:@"setupSubviewsNotification" object:self userInfo:dict];
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"textToBeAddedNotification" object:self userInfo:dict];
     
     [self dismissModalViewControllerAnimated:YES];
+     NSLog(@"grab the text --%@-- from modal view and pass it with a notification to AppDelegate",text);
 }
 -(IBAction)cancelModalView:(id)sender{
     [self dismissModalViewControllerAnimated:YES];
