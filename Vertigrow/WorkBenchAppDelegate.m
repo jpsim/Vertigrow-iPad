@@ -141,7 +141,6 @@ NSString *pathIndocumentDirectory(NSString *fileName);
             if([text length]>0){
                 //temp = [temp stringByAppendingString:[NSString stringWithFormat: @"%@\t", text]];
             
-            
                 //update dictionary with the new value
                 NSUInteger indexOfLastObject = [[self.toBeSavedDictionary objectForKey:self.key] count];
                 [[self.toBeSavedDictionary objectForKey:self.key] replaceObjectAtIndex:(indexOfLastObject-1) withObject:text];
@@ -151,6 +150,7 @@ NSString *pathIndocumentDirectory(NSString *fileName);
             //temp=nil;
             
             NSLog(@"add the recieved text to the text from the revious session --%@--: ",[self.notesArray objectAtIndex:self.currentIndex]);
+            
             }else{
         
                 NSLog(@"no project is selected!");
@@ -185,6 +185,9 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     NSLog(@"self.notesArray count %d", [self.notesArray count]);
     
     */
+    NSDictionary* dict = [NSDictionary dictionaryWithObject:self.textToAdd forKey:@"selftextToAdd"];
+    [[NSNotificationCenter defaultCenter]  postNotificationName:@"selftextToAddNotification" object:self userInfo:dict];
+    dict=nil;
     [self  setUptTableView];
     self.projectSelected=NO;
     
@@ -288,8 +291,18 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     
     self.key=nil;
 
-    //I have to update self.notesArray but the above code delete the whole array including the note as well so there is no need for further action
+    //I have to update self.notesArray; The above code delete the whole array including the note as well
+    self.notesArray=nil;
+    self.notesArray = [[NSMutableArray alloc] init];
+    
+    NSMutableArray *temp = [[NSMutableArray alloc] initWithArray:[self.toBeSavedDictionary allValues]];
 
+    for (NSMutableArray *value in temp) {
+        [self.notesArray addObject:[value lastObject]];  
+        
+    } 
+    temp=nil;
+    
     //NSLog(@"self.keysArray %d", [self.keysArray count]);
     NSLog(@"the current key is: %@ ", self.key);
     [self clearDetailControllerMainView];

@@ -15,27 +15,25 @@
 #define THUMB_V_PADDING 10
 #define THUMB_H_PADDING 10
 #define CREDIT_LABEL_HEIGHT 20
-
 #define AUTOSCROLL_THRESHOLD 30
 
 @interface WorkBenchDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
 - (CGSize)splitViewSizeForOrientation:(UIInterfaceOrientation)theOrientation;
-
 - (void)imageNames;
 - (void)toggleThumbView;
--(void)addBarButtonsToNavigationController;
+- (void)addBarButtonsToNavigationController;
 - (IBAction)takePicture:(id)sender;
 - (IBAction)sendEmail:(id)sender;
 - (IBAction)saveImage:(id)sender;
 - (IBAction)saveProjectNot:(id)sender;
 - (IBAction)addNotes:(id)sender;
 - (IBAction)cancelModalView:(id)sender;
--(IBAction)saveNote:(id)sender;
--(UIImage *)takeViewScreenshot;
--(NSString *)getDate;
--(void)grabTextToAdd:(NSNotification *)notification;
+- (IBAction)saveNote:(id)sender;
+- (UIImage *)takeViewScreenshot;
+- (NSString *)getDate;
+- (void)grabTextToAdd:(NSNotification *)notification;
 @end
 
 @implementation WorkBenchDetailViewController
@@ -472,6 +470,9 @@
 	UIImageWriteToSavedPhotosAlbum([self takeViewScreenshot], self, nil, nil); 
 }
 
+#pragma -mark
+#pragma modal view for Notes
+
 - (IBAction)addNotes:(id)sender{
     
     NoteViewController *NotesController = [[NoteViewController alloc] init];
@@ -501,12 +502,14 @@
     NotesController=nil;
     
 }
+
 -(void)grabTextToAdd:(NSNotification *)notification{
     
     self.notesText = [[notification userInfo] valueForKey:@"selftextToAdd"];
     NSLog(@"text to be shown in modelView is received --%@--", self.notesText);
     
 }
+
 //grab the text from modal view and pass it with a notification to AppDelegate
 -(IBAction)saveNote:(id)sender{
    
@@ -521,11 +524,14 @@
 -(IBAction)cancelModalView:(id)sender{
     [self dismissModalViewControllerAnimated:YES];
 }
+
 #pragma mark
 #pragma mark taking picture using camera
 
 - (IBAction)takePicture:(id)sender{
+    
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    
     // If our device has a camera, we want to take a picture, otherwise, we
     // just pick from photo library
     if ([UIImagePickerController
@@ -534,10 +540,13 @@
     } else {
         [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     }
+    
     // This line of code will generate 2 warnings right now, ignore them
     [imagePicker setDelegate:self];
+    
     // Place image picker on the screens
     [self presentModalViewController:imagePicker animated:YES];
+    
     // The image picker will be retained by ItemDetailViewController
     // until it has been dismissed
     imagePicker=nil;
@@ -546,17 +555,28 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    
     // Get picked image from info dictionary
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     
-    UIImageView *cameraPicView = [[UIImageView alloc]initWithImage:image];
+    NSString  const *keyForCameraImage = @"hamid";
+    NSMutableDictionary *cameraImageDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+    [cameraImageDictionary setObject:image forKey:keyForCameraImage];
     
-    // save in photo gallery then retrieve it from photogallery
+    //NSData *cameraImageData = UIImageJPEGRepresentation(image, 0.5);      
+    //NSString *cameraImagefilename = [NSString stringWithFormat:@"%@.jpg",[self getDate]];
+    
+    
+
+    UIImageView *cameraPicView = [[UIImageView alloc]initWithImage:[cameraImageDictionary objectForKey:keyForCameraImage] ];
+    
+        // save in photo gallery then retrieve it from photogallery
     [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] addSubview:cameraPicView];
     
     cameraPicView = nil;
     
     [self configureView];
+    
     // Take image picker off the screen -
     // you must call this dismiss method
     [self dismissModalViewControllerAnimated:YES];
@@ -580,7 +600,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
         NSString *filename = [NSString stringWithFormat:@"%@.jpg",[self getDate]];
         [controller addAttachmentData:imageData mimeType:@"image/jpg" fileName:filename];
         
-        [controller setMessageBody:[NSString stringWithFormat:@"her is the copy of the mockup!"] isHTML:NO]; 
+        [controller setMessageBody:[NSString stringWithFormat:@"here is the copy of the mockup!"] isHTML:NO]; 
         
         [self presentModalViewController:controller animated:YES];
     }
