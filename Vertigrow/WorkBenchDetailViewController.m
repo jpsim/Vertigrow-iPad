@@ -581,7 +581,15 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
     
     
 
-    UIImageView *cameraPicView = [[UIImageView alloc]initWithImage:[cameraImageDictionary objectForKey:keyForCameraImage] ];
+//    UIImageView *cameraPicView = [[UIImageView alloc]initWithImage:[cameraImageDictionary objectForKey:keyForCameraImage]];
+    
+    UIImageView *cameraPicView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 720)];
+    cameraPicView.image = [cameraImageDictionary objectForKey:keyForCameraImage];
+    
+    NSLog(@"Width: %f\nHeight:%f",cameraPicView.frame.size.width,cameraPicView.frame.size.height);
+    NSLog(@"X: %f\nY:%f",cameraPicView.frame.origin.x,cameraPicView.frame.origin.y);
+    
+    cameraPicView.contentMode = UIViewContentModeScaleAspectFill;
     
         // save in photo gallery then retrieve it from photogallery
     [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] addSubview:cameraPicView];
@@ -592,8 +600,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
     
     // Take image picker off the screen -
     // you must call this dismiss method
-    [self dismissModalViewControllerAnimated:YES];
-    
+    [self dismissModalViewControllerAnimated:YES];    
 }
 
 #pragma mark
