@@ -20,15 +20,23 @@
 		A2F1180E14707AC600689A7E /* WorkBenchDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F1180D14707AC600689A7E /* WorkBenchDetailViewController.m */; };
 		A2F1182A147170FF00689A7E /* Images.plist in Resources */ = {isa = PBXBuildFile; fileRef = A2F11829147170FF00689A7E /* Images.plist */; };
 		A2F118371471903E00689A7E /* ImageViewForScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F118361471903E00689A7E /* ImageViewForScroller.m */; };
+		E83EAE3E14940AC40092A04D /* areca palm.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE2E14940AC40092A04D /* areca palm.png */; };
+		E83EAE3F14940AC40092A04D /* chineese evergreen.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE2F14940AC40092A04D /* chineese evergreen.png */; };
+		E83EAE4014940AC40092A04D /* croton.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3014940AC40092A04D /* croton.png */; };
+		E83EAE4114940AC40092A04D /* dracaena janet craig.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3114940AC40092A04D /* dracaena janet craig.png */; };
+		E83EAE4214940AC40092A04D /* dracaena marginita.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3214940AC40092A04D /* dracaena marginita.png */; };
+		E83EAE4314940AC40092A04D /* dracena warneckii.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3314940AC40092A04D /* dracena warneckii.png */; };
+		E83EAE4414940AC40092A04D /* dumb cane.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3414940AC40092A04D /* dumb cane.png */; };
+		E83EAE4514940AC40092A04D /* English-Ivy.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3514940AC40092A04D /* English-Ivy.png */; };
+		E83EAE4614940AC40092A04D /* golden pothos.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3614940AC40092A04D /* golden pothos.png */; };
+		E83EAE4714940AC40092A04D /* heartleaf philodendron.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3714940AC40092A04D /* heartleaf philodendron.png */; };
+		E83EAE4814940AC40092A04D /* lady palm.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3814940AC40092A04D /* lady palm.png */; };
+		E83EAE4914940AC40092A04D /* peace lily.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3914940AC40092A04D /* peace lily.png */; };
+		E83EAE4A14940AC40092A04D /* peacock plant.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3A14940AC40092A04D /* peacock plant.png */; };
+		E83EAE4B14940AC40092A04D /* prayer plant.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3B14940AC40092A04D /* prayer plant.png */; };
+		E83EAE4C14940AC40092A04D /* snake plant.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3C14940AC40092A04D /* snake plant.png */; };
+		E83EAE4D14940AC40092A04D /* spider plant.png in Resources */ = {isa = PBXBuildFile; fileRef = E83EAE3D14940AC40092A04D /* spider plant.png */; };
 		E870C9401475678C0072D2E5 /* ThumbImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E870C93F1475678C0072D2E5 /* ThumbImageView.m */; };
-		E8887A44148402D000180CC7 /* Canning_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A3C148402D000180CC7 /* Canning_thumb.png */; };
-		E8887A45148402D000180CC7 /* DoWithLess_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A3D148402D000180CC7 /* DoWithLess_thumb.png */; };
-		E8887A46148402D000180CC7 /* FairShare_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A3E148402D000180CC7 /* FairShare_thumb.png */; };
-		E8887A47148402D000180CC7 /* GapInLine_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A3F148402D000180CC7 /* GapInLine_thumb.png */; };
-		E8887A48148402D000180CC7 /* Gunpowder_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A40148402D000180CC7 /* Gunpowder_thumb.png */; };
-		E8887A49148402D000180CC7 /* MakeItStretch_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A41148402D000180CC7 /* MakeItStretch_thumb.png */; };
-		E8887A4A148402D000180CC7 /* WeCanDoIt_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A42148402D000180CC7 /* WeCanDoIt_thumb.png */; };
-		E8887A4B148402D000180CC7 /* WorkToWin_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A43148402D000180CC7 /* WorkToWin_thumb.png */; };
 		E8887A4D148408C200180CC7 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A4C148408C200180CC7 /* Default-Landscape.png */; };
 		E8887A4F148408D700180CC7 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A4E148408D700180CC7 /* Icon-72.png */; };
 /* End PBXBuildFile section */
@@ -55,16 +63,24 @@
 		A2F11829147170FF00689A7E /* Images.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Images.plist; sourceTree = "<group>"; };
 		A2F118351471903E00689A7E /* ImageViewForScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewForScroller.h; sourceTree = "<group>"; };
 		A2F118361471903E00689A7E /* ImageViewForScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewForScroller.m; sourceTree = "<group>"; };
+		E83EAE2E14940AC40092A04D /* areca palm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "areca palm.png"; sourceTree = "<group>"; };
+		E83EAE2F14940AC40092A04D /* chineese evergreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chineese evergreen.png"; sourceTree = "<group>"; };
+		E83EAE3014940AC40092A04D /* croton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = croton.png; sourceTree = "<group>"; };
+		E83EAE3114940AC40092A04D /* dracaena janet craig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dracaena janet craig.png"; sourceTree = "<group>"; };
+		E83EAE3214940AC40092A04D /* dracaena marginita.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dracaena marginita.png"; sourceTree = "<group>"; };
+		E83EAE3314940AC40092A04D /* dracena warneckii.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dracena warneckii.png"; sourceTree = "<group>"; };
+		E83EAE3414940AC40092A04D /* dumb cane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dumb cane.png"; sourceTree = "<group>"; };
+		E83EAE3514940AC40092A04D /* English-Ivy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "English-Ivy.png"; sourceTree = "<group>"; };
+		E83EAE3614940AC40092A04D /* golden pothos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "golden pothos.png"; sourceTree = "<group>"; };
+		E83EAE3714940AC40092A04D /* heartleaf philodendron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heartleaf philodendron.png"; sourceTree = "<group>"; };
+		E83EAE3814940AC40092A04D /* lady palm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lady palm.png"; sourceTree = "<group>"; };
+		E83EAE3914940AC40092A04D /* peace lily.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peace lily.png"; sourceTree = "<group>"; };
+		E83EAE3A14940AC40092A04D /* peacock plant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peacock plant.png"; sourceTree = "<group>"; };
+		E83EAE3B14940AC40092A04D /* prayer plant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prayer plant.png"; sourceTree = "<group>"; };
+		E83EAE3C14940AC40092A04D /* snake plant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "snake plant.png"; sourceTree = "<group>"; };
+		E83EAE3D14940AC40092A04D /* spider plant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spider plant.png"; sourceTree = "<group>"; };
 		E870C93E1475678C0072D2E5 /* ThumbImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbImageView.h; sourceTree = "<group>"; };
 		E870C93F1475678C0072D2E5 /* ThumbImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbImageView.m; sourceTree = "<group>"; };
-		E8887A3C148402D000180CC7 /* Canning_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Canning_thumb.png; sourceTree = "<group>"; };
-		E8887A3D148402D000180CC7 /* DoWithLess_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DoWithLess_thumb.png; sourceTree = "<group>"; };
-		E8887A3E148402D000180CC7 /* FairShare_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FairShare_thumb.png; sourceTree = "<group>"; };
-		E8887A3F148402D000180CC7 /* GapInLine_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GapInLine_thumb.png; sourceTree = "<group>"; };
-		E8887A40148402D000180CC7 /* Gunpowder_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gunpowder_thumb.png; sourceTree = "<group>"; };
-		E8887A41148402D000180CC7 /* MakeItStretch_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MakeItStretch_thumb.png; sourceTree = "<group>"; };
-		E8887A42148402D000180CC7 /* WeCanDoIt_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WeCanDoIt_thumb.png; sourceTree = "<group>"; };
-		E8887A43148402D000180CC7 /* WorkToWin_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorkToWin_thumb.png; sourceTree = "<group>"; };
 		E8887A4C148408C200180CC7 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		E8887A4E148408D700180CC7 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,7 +105,6 @@
 			children = (
 				E8887A4E148408D700180CC7 /* Icon-72.png */,
 				E8887A4C148408C200180CC7 /* Default-Landscape.png */,
-				A2B664B014772AAF00BDB76B /* MessageUI.framework */,
 				A2F117FA14707AC500689A7E /* Vertigrow */,
 				A2F117F314707AC500689A7E /* Frameworks */,
 				A2F117F114707AC500689A7E /* Products */,
@@ -107,6 +122,7 @@
 		A2F117F314707AC500689A7E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A2B664B014772AAF00BDB76B /* MessageUI.framework */,
 				A2F117F414707AC500689A7E /* UIKit.framework */,
 				A2F117F614707AC500689A7E /* Foundation.framework */,
 				A2F117F814707AC500689A7E /* CoreGraphics.framework */,
@@ -151,14 +167,22 @@
 		E8887A3B148402D000180CC7 /* Thumbs */ = {
 			isa = PBXGroup;
 			children = (
-				E8887A3C148402D000180CC7 /* Canning_thumb.png */,
-				E8887A3D148402D000180CC7 /* DoWithLess_thumb.png */,
-				E8887A3E148402D000180CC7 /* FairShare_thumb.png */,
-				E8887A3F148402D000180CC7 /* GapInLine_thumb.png */,
-				E8887A40148402D000180CC7 /* Gunpowder_thumb.png */,
-				E8887A41148402D000180CC7 /* MakeItStretch_thumb.png */,
-				E8887A42148402D000180CC7 /* WeCanDoIt_thumb.png */,
-				E8887A43148402D000180CC7 /* WorkToWin_thumb.png */,
+				E83EAE2E14940AC40092A04D /* areca palm.png */,
+				E83EAE2F14940AC40092A04D /* chineese evergreen.png */,
+				E83EAE3014940AC40092A04D /* croton.png */,
+				E83EAE3114940AC40092A04D /* dracaena janet craig.png */,
+				E83EAE3214940AC40092A04D /* dracaena marginita.png */,
+				E83EAE3314940AC40092A04D /* dracena warneckii.png */,
+				E83EAE3414940AC40092A04D /* dumb cane.png */,
+				E83EAE3514940AC40092A04D /* English-Ivy.png */,
+				E83EAE3614940AC40092A04D /* golden pothos.png */,
+				E83EAE3714940AC40092A04D /* heartleaf philodendron.png */,
+				E83EAE3814940AC40092A04D /* lady palm.png */,
+				E83EAE3914940AC40092A04D /* peace lily.png */,
+				E83EAE3A14940AC40092A04D /* peacock plant.png */,
+				E83EAE3B14940AC40092A04D /* prayer plant.png */,
+				E83EAE3C14940AC40092A04D /* snake plant.png */,
+				E83EAE3D14940AC40092A04D /* spider plant.png */,
 			);
 			path = Thumbs;
 			sourceTree = "<group>";
@@ -217,16 +241,24 @@
 				A2F117FF14707AC500689A7E /* InfoPlist.strings in Resources */,
 				A2F1180814707AC500689A7E /* MainStoryboard.storyboard in Resources */,
 				A2F1182A147170FF00689A7E /* Images.plist in Resources */,
-				E8887A44148402D000180CC7 /* Canning_thumb.png in Resources */,
-				E8887A45148402D000180CC7 /* DoWithLess_thumb.png in Resources */,
-				E8887A46148402D000180CC7 /* FairShare_thumb.png in Resources */,
-				E8887A47148402D000180CC7 /* GapInLine_thumb.png in Resources */,
-				E8887A48148402D000180CC7 /* Gunpowder_thumb.png in Resources */,
-				E8887A49148402D000180CC7 /* MakeItStretch_thumb.png in Resources */,
-				E8887A4A148402D000180CC7 /* WeCanDoIt_thumb.png in Resources */,
-				E8887A4B148402D000180CC7 /* WorkToWin_thumb.png in Resources */,
 				E8887A4D148408C200180CC7 /* Default-Landscape.png in Resources */,
 				E8887A4F148408D700180CC7 /* Icon-72.png in Resources */,
+				E83EAE3E14940AC40092A04D /* areca palm.png in Resources */,
+				E83EAE3F14940AC40092A04D /* chineese evergreen.png in Resources */,
+				E83EAE4014940AC40092A04D /* croton.png in Resources */,
+				E83EAE4114940AC40092A04D /* dracaena janet craig.png in Resources */,
+				E83EAE4214940AC40092A04D /* dracaena marginita.png in Resources */,
+				E83EAE4314940AC40092A04D /* dracena warneckii.png in Resources */,
+				E83EAE4414940AC40092A04D /* dumb cane.png in Resources */,
+				E83EAE4514940AC40092A04D /* English-Ivy.png in Resources */,
+				E83EAE4614940AC40092A04D /* golden pothos.png in Resources */,
+				E83EAE4714940AC40092A04D /* heartleaf philodendron.png in Resources */,
+				E83EAE4814940AC40092A04D /* lady palm.png in Resources */,
+				E83EAE4914940AC40092A04D /* peace lily.png in Resources */,
+				E83EAE4A14940AC40092A04D /* peacock plant.png in Resources */,
+				E83EAE4B14940AC40092A04D /* prayer plant.png in Resources */,
+				E83EAE4C14940AC40092A04D /* snake plant.png in Resources */,
+				E83EAE4D14940AC40092A04D /* spider plant.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

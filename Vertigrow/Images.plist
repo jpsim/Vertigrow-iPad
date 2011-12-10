@@ -2,13 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <array>
-	<string>DoWithLess</string>
-	<string>GapInLine</string>
-	<string>Canning</string>
-	<string>WorkToWin</string>
-	<string>FairShare</string>
-	<string>Gunpowder</string>
-	<string>MakeItStretch</string>
-	<string>WeCanDoIt</string>
+	<string>areca palm</string>
+	<string>chineese evergreen</string>
+	<string>croton</string>
+	<string>dracaena janet craig</string>
+	<string>dracaena marginita</string>
+	<string>dracena warkeckii</string>
+	<string>dumb cane</string>
+	<string>English-Ivy</string>
+	<string>golden pothos</string>
+	<string>heartleaf philodendron</string>
+	<string>lady palm</string>
+	<string>peace lily</string>
+	<string>peacock plant</string>
+	<string>prayer plant</string>
+	<string>snake plant</string>
+	<string>spider plant</string>
 </array>
 </plist>

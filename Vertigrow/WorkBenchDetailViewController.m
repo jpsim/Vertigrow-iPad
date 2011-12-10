@@ -268,7 +268,7 @@
         // and in the course of doing so calculate the content width
         float xPosition = THUMB_H_PADDING;
         for (NSString *name in self.ImagesNameArray) {
-            UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_thumb.png", name]];
+            UIImage *thumbImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@", name]];
             //UIImage *scaledImage = [UIImage imageWithCGImage:[thumbImage CGImage] scale:15 orientation:UIImageOrientationUp];
             // NSLog(@"higth of image %f", scaledImage.size.height);
             if (thumbImage) {
