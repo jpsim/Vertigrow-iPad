@@ -380,7 +380,6 @@
             [newThumb setDelegate:self];
             [self.thumbScrollView addSubview:newThumb];
             [newThumb becomeFirstResponder];
-        
         }else{
             
             [draggingThumb removeFromSuperview];
