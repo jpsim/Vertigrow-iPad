@@ -68,14 +68,10 @@ NSString *pathIndocumentDirectory(NSString *fileName);
                                              selector:@selector(createNewProject:)
                                                  name:@"createNewProjectNotification" object:nil];
     
-
-
-    
     [self fetchubViewsIfNecessary];
     
     [self setUptTableView];
 
-    
     return YES;
 }
 
@@ -245,7 +241,6 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     NSDictionary *dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
     NSLog(@"self.keysArray has %d elements before it is passed to masterViewController",[self.keysArray count] );
     [[NSNotificationCenter defaultCenter]  postNotificationName:@"setUptTableViewNotification" object:self userInfo:dict];
-    
 }
 
 -(void)updateDictionary:(NSNotification *)notification{
@@ -568,7 +563,7 @@ NSString *pathIndocumentDirectory(NSString *fileName);
             NSDictionary* dict = [NSDictionary dictionaryWithObject:self.textToAdd forKey:@"selftextToAdd"];
             [[NSNotificationCenter defaultCenter]  postNotificationName:@"selftextToAddNotification" object:self userInfo:dict];
             dict=nil;
-            [self  setUptTableView];
+            [self setUptTableView];
         }
     }
 }

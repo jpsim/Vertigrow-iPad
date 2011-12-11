@@ -70,9 +70,7 @@
         self.savedData = [[NSMutableArray alloc] init];
         NSLog(@"self.saveData is initialized to an empty array because there self.keysArray is empty");
     }
-    
-    [self.tableView reloadData];
-    
+    [self.tableView reloadData];    
 }
 - (void)didReceiveMemoryWarning
 {
