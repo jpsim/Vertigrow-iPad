@@ -450,12 +450,11 @@
     [buttons addObject:bi];
     bi=nil;
     
-      //saving screenshot into photo library
+    //saving screenshot into photo library
     bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveImage:)];
     bi.width = 20.0f;
     [buttons addObject:bi];
     bi=nil;
-
 
     // Add buttons to toolbar and toolbar to nav bar.
     [tools setItems:buttons animated:NO];
@@ -464,7 +463,6 @@
     UIBarButtonItem *threeButtons = [[UIBarButtonItem alloc] initWithCustomView:tools];
     tools = nil;
     
-  
     [[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] navigationItem].rightBarButtonItem = threeButtons;
     threeButtons = nil;
 }
@@ -514,10 +512,8 @@
 }
 
 -(void)grabTextToAdd:(NSNotification *)notification{
-    
     self.notesText = [[notification userInfo] valueForKey:@"selftextToAdd"];
     NSLog(@"text to be shown in modelView is received --%@--", self.notesText);
-    
 }
 
 //grab the text from modal view and pass it with a notification to AppDelegate

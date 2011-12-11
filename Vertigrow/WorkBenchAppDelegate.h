@@ -10,7 +10,9 @@
 #import "ThumbImageView.h"
 
 
-@interface WorkBenchAppDelegate : UIResponder <UIApplicationDelegate>
+@interface WorkBenchAppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate> {
+    UITextField *projNameField;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 @property(nonatomic,retain)UISplitViewController *splitViewController;

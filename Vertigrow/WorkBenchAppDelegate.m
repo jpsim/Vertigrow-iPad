@@ -29,7 +29,7 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 -(void)addEntryToDictionary;
 -(void)addEmptyEntryToDictionary;
 -(NSString *)getCurrentDate;
-
+-(void)getNewProjTitle;
 
 @end
 
@@ -167,30 +167,7 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     }
 }
 -(void)createNewProject:(NSNotification *)notification{
-
-    self.key=nil;
-    self.currentIndex=-1;
-    self.textToAdd=@"";
-    
-    [self clearDetailControllerMainView];
-    
-    [self addEmptyEntryToDictionary];
-    NSLog(@"create a new project by adding a an empty entry to dictionary");
-     
-   /* 
-    NSDictionary* dicti = [NSDictionary dictionaryWithObject:self.notesArray forKey:@"notesArrayToUpdate"];
-    [[NSNotificationCenter defaultCenter]  postNotificationName:@"notesArrayToUpdateNotification" object:self userInfo:dicti];
-    dicti=nil;
-
-    NSLog(@"self.notesArray count %d", [self.notesArray count]);
-    
-    */
-    NSDictionary* dict = [NSDictionary dictionaryWithObject:self.textToAdd forKey:@"selftextToAdd"];
-    [[NSNotificationCenter defaultCenter]  postNotificationName:@"selftextToAddNotification" object:self userInfo:dict];
-    dict=nil;
-    [self  setUptTableView];
-    self.projectSelected=NO;
-    
+    [self getNewProjTitle];
 }
 -(void)addEmptyEntryToDictionary{
     
@@ -531,10 +508,25 @@ NSString *pathIndocumentDirectory(NSString *fileName);
      */
     
     //self.key = [NSString stringWithFormat:@"%@.data",key];
-   self.key = [self getCurrentDate];
+//   self.key = [self getCurrentDate];
+    self.key = projNameField.text;
    NSLog(@"createKey is called and key: %@  is created!",self.key);
-    
 }
+
+-(void)getNewProjTitle{
+    UIAlertView *projNameAlert = [[UIAlertView alloc] initWithTitle:@"Project Name" message:@"\n"
+                                                           delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel",nil) otherButtonTitles:NSLocalizedString(@"OK",nil), nil];
+    projNameField = [[UITextField alloc] initWithFrame:CGRectMake(16,47,252,25)];
+    projNameField.font = [UIFont systemFontOfSize:18];
+    projNameField.backgroundColor = [UIColor whiteColor];
+    projNameField.keyboardAppearance = UIKeyboardAppearanceAlert;
+    [projNameField becomeFirstResponder];
+    [projNameAlert addSubview:projNameField];
+    
+    [projNameAlert show];
+//    return passwordField.text;
+}
+
 -(NSString *)getCurrentDate{
     NSLog(@"getCurrentDate");
     NSDate* now = [NSDate date];
@@ -568,6 +560,24 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     return pathIndocumentDirectory(@"saved.data");
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        self.key=nil;
+        self.currentIndex=-1;
+        self.textToAdd=@"";
+        
+        [self clearDetailControllerMainView];
+        
+        [self addEmptyEntryToDictionary];
+        NSLog(@"create a new project by adding a an empty entry to dictionary");
+        
+        NSDictionary* dict = [NSDictionary dictionaryWithObject:self.textToAdd forKey:@"selftextToAdd"];
+        [[NSNotificationCenter defaultCenter]  postNotificationName:@"selftextToAddNotification" object:self userInfo:dict];
+        dict=nil;
+        [self  setUptTableView];
+    }
+}
+
 @end
 
 NSString *pathIndocumentDirectory(NSString *fileName)
@@ -582,4 +592,3 @@ NSString *pathIndocumentDirectory(NSString *fileName)
     // Append passed in file name to that directory, return it
     return [documentDirectory stringByAppendingPathComponent:fileName];
 }
-

@@ -134,7 +134,6 @@
 - (IBAction)createNewProject:(id)sender{
     NSLog(@"a notification sent to AppDelegate asking for creation of a new project");
     [[NSNotificationCenter defaultCenter]  postNotificationName:@"createNewProjectNotification" object:self userInfo:nil];
-    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
