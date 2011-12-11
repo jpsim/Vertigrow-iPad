@@ -12,12 +12,10 @@ NSString * const filenamePrefKey = @"filenamePrefKey";
 
 @interface WorkBenchAppDelegate (AuxilaryMethods)
 
-
-
 NSString *pathIndocumentDirectory(NSString *fileName);
-- (BOOL)saveChanges;
-- (NSString *)allImageViewsArchivePath;
-- (void)fetchubViewsIfNecessary;
+-(BOOL)saveChanges;
+-(NSString *)allImageViewsArchivePath;
+-(void)fetchubViewsIfNecessary;
 -(void)setupSubviews:(NSNotification *)notification;
 -(void)createKey;
 -(void)setUptTableView;
@@ -362,9 +360,7 @@ NSString *pathIndocumentDirectory(NSString *fileName);
             [addIt setDelegate:[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] ];
         }
     }
-    
     savedSubviewsArray= nil;
-
 }
 
 - (void)fetchubViewsIfNecessary
@@ -385,14 +381,11 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     //if the dictionary is not empty it means there exists at least one project
     NSLog(@"initialize keysArray to an empty Array!");
     if(!self.keysArray){
-        
         self.keysArray = [[NSMutableArray alloc] init];
     }
-    NSLog(@"chck if there is any saved project on the disk, if yes then populate the keysArray with all the keys in the dictionary saved on the disk! ");
-    if([self.toBeSavedDictionary count]>0){  
-        
+    NSLog(@"check if there is any saved project on the disk, if yes then populate the keysArray with all the keys in the dictionary saved on the disk! ");
+    if([self.toBeSavedDictionary count]>0){          
         [self.keysArray addObjectsFromArray:[self.toBeSavedDictionary allKeys]];
-        
     }
     NSLog(@"initialize notesArray to an empty Array!");
     if(!self.notesArray){
@@ -562,19 +555,21 @@ NSString *pathIndocumentDirectory(NSString *fileName);
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-        self.key=nil;
-        self.currentIndex=-1;
-        self.textToAdd=@"";
-        
-        [self clearDetailControllerMainView];
-        
-        [self addEmptyEntryToDictionary];
-        NSLog(@"create a new project by adding a an empty entry to dictionary");
-        
-        NSDictionary* dict = [NSDictionary dictionaryWithObject:self.textToAdd forKey:@"selftextToAdd"];
-        [[NSNotificationCenter defaultCenter]  postNotificationName:@"selftextToAddNotification" object:self userInfo:dict];
-        dict=nil;
-        [self  setUptTableView];
+        if ([projNameField.text length] > 0) {
+            self.key=nil;
+            self.currentIndex=-1;
+            self.textToAdd=@"";
+            
+            [self clearDetailControllerMainView];
+            
+            [self addEmptyEntryToDictionary];
+            NSLog(@"create a new project by adding a an empty entry to dictionary");
+            
+            NSDictionary* dict = [NSDictionary dictionaryWithObject:self.textToAdd forKey:@"selftextToAdd"];
+            [[NSNotificationCenter defaultCenter]  postNotificationName:@"selftextToAddNotification" object:self userInfo:dict];
+            dict=nil;
+            [self  setUptTableView];
+        }
     }
 }
 
