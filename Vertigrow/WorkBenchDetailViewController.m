@@ -368,12 +368,11 @@
         
             ThumbImageView *addIt =  [[ThumbImageView alloc] initWithImage:draggingThumb.image];
             addIt.imageName=draggingThumb.imageName;
+            
+            CGPoint newCenter = CGPointMake(draggingThumb.center.x-_thumbScrollView.contentOffset.x, draggingThumb.center.y);
         
-            addIt.center = [self.slideUpView convertPoint:draggingThumb.center toView:self.detailNavController.topViewController.view];
+            addIt.center = [self.slideUpView convertPoint:newCenter toView:self.detailNavController.topViewController.view];
             [self.view addSubview:addIt];
-        
-        
-        
             ImageViewForScroller *newThumb = [[ImageViewForScroller alloc] initWithImage:draggingThumb.image];
             newThumb.imageName=draggingThumb.imageName;
             newThumb.home = draggingThumb.home;
@@ -398,20 +397,20 @@
     
 }
 
--(void)doubleTap:(ThumbImageView *)tappedImage{
-    
-    NSLog(@"double tap is selected");
-    [tappedImage removeFromSuperview];
-    
-    //tappedImage =nil;
-}
-
--(void)singleTap:(ThumbImageView *)tappedImage{
-     
-    UIView *detailview =[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view];
-    [detailview bringSubviewToFront:tappedImage];
-    detailview=nil;
-}
+//-(void)doubleTap:(ThumbImageView *)tappedImage{
+//    
+//    NSLog(@"double tap is selected");
+//    [tappedImage removeFromSuperview];
+//    
+//    //tappedImage =nil;
+//}
+//
+//-(void)singleTap:(ThumbImageView *)tappedImage{
+//     
+//    UIView *detailview =[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view];
+//    [detailview bringSubviewToFront:tappedImage];
+//    detailview=nil;
+//}
 
 #pragma mark
 #pragma mark buttons on the UINavigatorController
@@ -576,11 +575,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
     NSMutableDictionary *cameraImageDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
     [cameraImageDictionary setObject:image forKey:keyForCameraImage];
     
-    //NSData *cameraImageData = UIImageJPEGRepresentation(image, 0.5);      
+    //NSData *cameraImageData = UIImageJPEGRepresentation(image, 0.5);
     //NSString *cameraImagefilename = [NSString stringWithFormat:@"%@.jpg",[self getDate]];
     
-    
-
 //    UIImageView *cameraPicView = [[UIImageView alloc]initWithImage:[cameraImageDictionary objectForKey:keyForCameraImage]];
     
     UIImageView *cameraPicView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 720)];

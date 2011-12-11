@@ -9,7 +9,6 @@
 #import "ThumbImageView.h"
 #import <QuartzCore/QuartzCore.h>
 
-
 @interface ThumbImageView ()
 - (void)createGestureRecognizers;
 @end
@@ -23,8 +22,6 @@
 @synthesize thumbImageToBeSerialized=_thumbImageToBeSerialized;
 @synthesize imageName=_imageName;
 
-
-
 - (id)initWithImage:(UIImage *)image  {
     self.thumbImageToBeSerialized = image;
     self = [super initWithImage:self.thumbImageToBeSerialized];
@@ -32,7 +29,6 @@
         [self setUserInteractionEnabled:YES];
         [self setMultipleTouchEnabled:YES];
         [self createGestureRecognizers];
-        
     }
     
     return  self;
@@ -41,14 +37,15 @@
     self.thumbImageToBeSerialized=nil;
     self.imageName=nil;
 }
+
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     if ([self.delegate respondsToSelector:@selector(stoppedtracking:)])
         [self.delegate stoppedtracking:self];
 }
+
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
     //if ([self.delegate respondsToSelector:@selector(stoppedtracking:)])
     //[self.delegate stoppedtracking:self];
-    
 }
 #pragma mark -
 #pragma mark GestureRecocnizers
@@ -86,17 +83,15 @@
     [self addGestureRecognizer:rotateGesture];
     [rotateGesture setDelegate:self];
     //[rotateGesture release];
-    
 }
 
 #pragma mark -
 #pragma mark handling GestureRecognizers
 
 -(IBAction)handlDoubleTap:(UIGestureRecognizer *)sender{
-    
-    if ([self.delegate respondsToSelector:@selector(doubleTap:)])
-        [self.delegate doubleTap:self];
+    [sender.view removeFromSuperview];
 }
+
 - (IBAction)handlSingleTap:(UIGestureRecognizer *)sender{
     
     if ([self.delegate respondsToSelector:@selector(singleTap:)])
@@ -104,7 +99,6 @@
 }
 
 - (IBAction)handleRotateGesture:(UIGestureRecognizer *)sender{
-    
     
 	if(sender.state == UIGestureRecognizerStateEnded) {
         
@@ -121,7 +115,6 @@
     
     
 	self.lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
-    
     
 }
 
@@ -142,7 +135,6 @@
     
     if ([self.delegate respondsToSelector:@selector(pinchGesture:)])
         [self.delegate pinchGesture:self];
-    
 }
 
 - (IBAction)handlePanGesture:(UIPanGestureRecognizer *)sender {
@@ -154,7 +146,6 @@
         self.firstX = [sender.view center].x;
         self.firstY = [sender.view center].y;
     }
-    
     translatedPoint = CGPointMake(self.firstX+translatedPoint.x, self.firstY+translatedPoint.y);
     
     [sender.view setCenter:translatedPoint];
@@ -197,4 +188,3 @@
 }
 
 @end
-
