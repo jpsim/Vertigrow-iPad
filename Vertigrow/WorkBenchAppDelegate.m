@@ -204,16 +204,16 @@ NSString *pathIndocumentDirectory(NSString *fileName);
         
         [self addEntryToDictionary];
     
-        //self.keysArray=nil;
-        //self.keysArray = [[NSMutableArray alloc] init];
-        //[self.keysArray addObjectsFromArray:[self.toBeSavedDictionary allKeys]];
+        self.keysArray=nil;
+        self.keysArray = [[NSMutableArray alloc] init];
+        [self.keysArray addObjectsFromArray:[self.toBeSavedDictionary allKeys]];
     
-        //self.dict=nil;
-        //self.dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
-        //[self  setUptTableView];
+//        self.dict=nil;
+//        self.dict = [NSDictionary dictionaryWithObject:self.keysArray forKey:@"keysArray"];
+//        [self  setUptTableView];
     
-        //[self clearDetailControllerMainView];
-        //self.key=nil;
+//        [self clearDetailControllerMainView];
+//        self.key=nil;
     }else{
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Error!"
                                                           message:@"Please select a project first!"
