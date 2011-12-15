@@ -608,15 +608,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
         
         UIImage *image = [self takeViewScreenshot];
         NSData *imageData = UIImageJPEGRepresentation(image, 0.5);      
-        NSString *filename = [NSString stringWithFormat:@"%@.jpg",[self getDate]];
+        NSString *filename = [NSString stringWithFormat:@"%@.jpg",self.navigationItem.title];
         [controller addAttachmentData:imageData mimeType:@"image/jpg" fileName:filename];
         
-        [controller setMessageBody:[NSString stringWithFormat:@"here is the copy of the mockup!"] isHTML:NO]; 
+        [controller setMessageBody:[NSString stringWithFormat:@"Hi there,\n\nIt was a pleasure meeting with you. The preview image of your vertical garden is attached. Please let me know how you like it, as well as any questions or suggestions that you may have."] isHTML:NO]; 
         
         [self presentModalViewController:controller animated:YES];
     }
     controller=nil;
-    
 }
 
 
@@ -624,7 +623,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
     switch (result)
     
     {
-            
         case MFMailComposeResultCancelled:
             [self dismissModalViewControllerAnimated:YES];
             break;
