@@ -13,7 +13,7 @@
 #import <MessageUI/MFMessageComposeViewController.h>
 #import "NoteViewController.h"
 
-@interface WorkBenchDetailViewController : UIViewController <UISplitViewControllerDelegate,UIGestureRecognizerDelegate,ThumbImageViewDelegate,ImageViewForScrollerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,MFMailComposeViewControllerDelegate>{
+@interface WorkBenchDetailViewController : UIViewController <UISplitViewControllerDelegate,UIGestureRecognizerDelegate,ThumbImageViewDelegate,ImageViewForScrollerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,MFMailComposeViewControllerDelegate, UIPopoverControllerDelegate>{
     BOOL thumbViewShowing;
     
 }

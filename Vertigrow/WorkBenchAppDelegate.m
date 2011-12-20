@@ -312,6 +312,21 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     
     //get the array containing all the subviews serialized properties required for the recreation of suviews
     
+    // pull bg image here
+    NSString *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.jpg",self.key]];
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:jpgPath];
+    if (fileExists) {
+        UIImageView *cameraPicView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 720)];
+        cameraPicView.image = [UIImage imageWithContentsOfFile:jpgPath];
+        NSLog(@"Width: %f\nHeight:%f",cameraPicView.frame.size.width,cameraPicView.frame.size.height);
+        NSLog(@"X: %f\nY:%f",cameraPicView.frame.origin.x,cameraPicView.frame.origin.y);
+        
+        cameraPicView.contentMode = UIViewContentModeScaleAspectFill;
+        
+        // save in photo gallery then retrieve it from photogallery
+        [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] insertSubview:cameraPicView atIndex:0];
+    }
+    
     NSMutableArray *savedSubviewsArray = [self.toBeSavedDictionary objectForKey:self.key];
     
     //NSLog(@"there are %d subviews to be added!", [savedSubviewsArray count]);
@@ -346,12 +361,16 @@ NSString *pathIndocumentDirectory(NSString *fileName);
             
             addIt.bounds = [[propertiesArray objectAtIndex:2] CGRectValue]; 
             //NSLog(@"addIt.bounds: %@", NSStringFromCGRect(addIt.bounds));
+              
+//              [addIt setFrame:CGRectMake(100, 100, 400, 400)];
+//              [addIt setBackgroundColor:[UIColor redColor]];
             
             addIt.transform = [[propertiesArray objectAtIndex:3] CGAffineTransformValue];
-            //NSLog(@"addIt.transform: %@",NSStringFromCGAffineTransform(addIt.transform));
+            NSLog(@"addIt.transform: %@",NSStringFromCGAffineTransform(addIt.transform));
             
             //add the image to the detailviewcontrollers's main view 
             [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] addSubview:addIt];
+            
             [addIt setDelegate:[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] ];
         }
     }
@@ -366,7 +385,6 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     if(!self.toBeSavedDictionary){
         NSString *path =[self allImageViewsArchivePath];
         self.toBeSavedDictionary = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-        
     }
     
     if(!self.toBeSavedDictionary){
@@ -442,32 +460,34 @@ NSString *pathIndocumentDirectory(NSString *fileName);
     
     //NSLog(@"allsubviewsArray: %d ", [allsubviewsArray count]);
     
-    NSMutableArray *allsubviewsPropertiesArray = [[NSMutableArray alloc] init]; 
-    if ([allsubviewsArray count]>0) {
-        
+    NSMutableArray *allsubviewsPropertiesArray = [[NSMutableArray alloc] init];
+    if ([allsubviewsArray count]>1) {
+        BOOL first = YES;
         for (ThumbImageView *view in allsubviewsArray) {
-            
-            
-            NSMutableArray *array = [[NSMutableArray alloc] init];
-            
-            [array insertObject:view.imageName atIndex:0];
-            
-            NSValue *frameCenter = [NSValue valueWithCGPoint:view.center];
-            //NSLog(@"view.frameCenterForSerialization: %@", NSStringFromCGPoint(view.center));
-            [array insertObject:frameCenter atIndex:1];
-            
-            
-            NSValue *bound = [NSValue valueWithCGRect:view.bounds];
-            //NSLog(@"view.boundForSerialization: %@", NSStringFromCGRect(view.bounds));
-            [array insertObject:bound atIndex:2];
-            
-            NSValue *transform = [NSValue valueWithCGAffineTransform:view.transform];
-            //NSLog(@"view.transformForSerialization: %@",NSStringFromCGAffineTransform(view.transform));
-            [array insertObject:transform atIndex:3];
-        
-            
-            [allsubviewsPropertiesArray addObject:array];
-            array=nil;
+            if (!first) {
+                NSMutableArray *array = [[NSMutableArray alloc] init];
+                
+                [array insertObject:view.imageName atIndex:0];
+                
+                NSValue *frameCenter = [NSValue valueWithCGPoint:view.center];
+                //NSLog(@"view.frameCenterForSerialization: %@", NSStringFromCGPoint(view.center));
+                [array insertObject:frameCenter atIndex:1];
+                
+                
+                NSValue *bound = [NSValue valueWithCGRect:view.bounds];
+                //NSLog(@"view.boundForSerialization: %@", NSStringFromCGRect(view.bounds));
+                [array insertObject:bound atIndex:2];
+                
+                NSValue *transform = [NSValue valueWithCGAffineTransform:view.transform];
+                //NSLog(@"view.transformForSerialization: %@",NSStringFromCGAffineTransform(view.transform));
+                [array insertObject:transform atIndex:3];
+                
+                
+                [allsubviewsPropertiesArray addObject:array];
+                array=nil;
+            } else {
+                first=NO;
+            }
         }
     }  
     

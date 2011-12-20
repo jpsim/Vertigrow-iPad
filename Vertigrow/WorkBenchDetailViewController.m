@@ -25,6 +25,7 @@
 - (void)toggleThumbView;
 - (void)addBarButtonsToNavigationController;
 - (IBAction)takePicture:(id)sender;
+- (IBAction)photoLibrary:(id)sender;
 - (IBAction)sendEmail:(id)sender;
 - (IBAction)saveImage:(id)sender;
 - (IBAction)saveProjectNot:(id)sender;
@@ -274,7 +275,7 @@
             if (thumbImage) {
                 UIImageView *thumbView = [[UIImageView alloc] initWithImage:thumbImage];
                 ImageViewForScroller *newThumb = [[ImageViewForScroller alloc] initWithImage:thumbImage];
-                newThumb.imageName = [NSString stringWithFormat:@"%@_thumb.png", name];
+                newThumb.imageName = [NSString stringWithFormat:@"%@.png", name];
                 [newThumb setDelegate:self];
                 
                 CGRect frame = [thumbView frame];
@@ -415,7 +416,7 @@
 
 -(void)addBarButtonsToNavigationController{
     UIToolbar *tools = [[UIToolbar alloc]
-                        initWithFrame:CGRectMake(0.0f, 0.0f, 190.0f, 44.01f)]; // 44.01 shifts it up 1px for some reason
+                        initWithFrame:CGRectMake(0.0f, 0.0f, 280.0f, 44.01f)]; // 44.01 shifts it up 1px for some reason
     tools.clearsContextBeforeDrawing = NO;
     tools.clipsToBounds = NO;
     tools.tintColor = [UIColor colorWithWhite:0.305f alpha:0.0f]; // closest I could get by eye to black, translucent style.
@@ -424,9 +425,30 @@
     NSMutableArray *buttons = [[NSMutableArray alloc] initWithCapacity:3];
   
     
-    //create a new project  
+    //Save project
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(saveProjectNot:)];
     bi.width = 20.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
+    // Space
+    bi = [[UIBarButtonItem alloc]
+          initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    bi.width = 10.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
+    // Create a standard photoLibrary button.
+    bi = [[UIBarButtonItem alloc]
+          initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(photoLibrary:)];
+    bi.width = 20.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
+    // Space
+    bi = [[UIBarButtonItem alloc]
+          initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    bi.width = 10.0f;
     [buttons addObject:bi];
     bi=nil;
     
@@ -437,9 +459,23 @@
     [buttons addObject:bi];
     bi=nil;
     
+    // Space
+    bi = [[UIBarButtonItem alloc]
+          initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    bi.width = 10.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
     // Add profile button.
     bi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sendEmail:)];
     bi.width = 20.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
+    // Space
+    bi = [[UIBarButtonItem alloc]
+          initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    bi.width = 10.0f;
     [buttons addObject:bi];
     bi=nil;
     
@@ -447,6 +483,13 @@
     bi = [[UIBarButtonItem alloc]
           initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(addNotes:)];
     bi.width = 20.0f;
+    [buttons addObject:bi];
+    bi=nil;
+    
+    // Space
+    bi = [[UIBarButtonItem alloc]
+          initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    bi.width = 10.0f;
     [buttons addObject:bi];
     bi=nil;
     
@@ -543,8 +586,6 @@
     if ([UIImagePickerController
          isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
-    } else {
-        [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     }
     
     // This line of code will generate 2 warnings right now, ignore them
@@ -565,17 +606,20 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
     // Get picked image from info dictionary
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     
-    NSString  const *keyForCameraImage = @"hamid";
-    NSMutableDictionary *cameraImageDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
-    [cameraImageDictionary setObject:image forKey:keyForCameraImage];
+//    NSString  const *keyForCameraImage = @"hamid";
+//    NSMutableDictionary *cameraImageDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+//    [cameraImageDictionary setObject:image forKey:keyForCameraImage];
     
-    //NSData *cameraImageData = UIImageJPEGRepresentation(image, 0.5);
-    //NSString *cameraImagefilename = [NSString stringWithFormat:@"%@.jpg",[self getDate]];
+//    NSData *cameraImageData = UIImageJPEGRepresentation(image, 0.5);
+//    NSString *cameraImagefilename = [NSString stringWithFormat:@"%@.jpg",[self getDate]];
     
-//    UIImageView *cameraPicView = [[UIImageView alloc]initWithImage:[cameraImageDictionary objectForKey:keyForCameraImage]];
+    NSString *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.jpg",self.navigationItem.title]];
+    [UIImageJPEGRepresentation(image, 1.0) writeToFile:jpgPath atomically:YES];
+    
+//    UIImageView *cameraPicView = [[UIImageView alloc]initWithImage:image];
     
     UIImageView *cameraPicView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 720)];
-    cameraPicView.image = [cameraImageDictionary objectForKey:keyForCameraImage];
+    cameraPicView.image = image;
     
     NSLog(@"Width: %f\nHeight:%f",cameraPicView.frame.size.width,cameraPicView.frame.size.height);
     NSLog(@"X: %f\nY:%f",cameraPicView.frame.origin.x,cameraPicView.frame.origin.y);
@@ -583,7 +627,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
     cameraPicView.contentMode = UIViewContentModeScaleAspectFill;
     
         // save in photo gallery then retrieve it from photogallery
-    [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] addSubview:cameraPicView];
+    [[[[[self.splitViewController.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] view] insertSubview:cameraPicView atIndex:0];
     
     cameraPicView = nil;
     
@@ -591,7 +635,27 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info{
     
     // Take image picker off the screen -
     // you must call this dismiss method
-    [self dismissModalViewControllerAnimated:YES];    
+    [self dismissModalViewControllerAnimated:YES];
+    if (_masterPopoverController != nil) {
+        [_masterPopoverController dismissPopoverAnimated:YES];
+        _masterPopoverController = nil;
+    }
+}
+
+#pragma mark
+#pragma mark taking picture using photo library
+
+- (IBAction)photoLibrary:(id)sender{
+    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
+    
+    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:picker];
+    _masterPopoverController = popover;
+    [_masterPopoverController presentPopoverFromRect:CGRectMake(795, 0, 1, 1)
+                                       inView:self.view
+                     permittedArrowDirections:UIPopoverArrowDirectionUp
+                                     animated:YES];
 }
 
 #pragma mark
