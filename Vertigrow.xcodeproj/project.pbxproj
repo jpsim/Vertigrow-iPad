@@ -39,6 +39,9 @@
 		E870C9401475678C0072D2E5 /* ThumbImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E870C93F1475678C0072D2E5 /* ThumbImageView.m */; };
 		E8887A4D148408C200180CC7 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A4C148408C200180CC7 /* Default-Landscape.png */; };
 		E8887A4F148408D700180CC7 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = E8887A4E148408D700180CC7 /* Icon-72.png */; };
+		E8ECD38E14A12AE9001C8655 /* 2x2 mod.png in Resources */ = {isa = PBXBuildFile; fileRef = E8ECD38C14A12AE9001C8655 /* 2x2 mod.png */; };
+		E8ECD38F14A12AE9001C8655 /* 2x4 mod.png in Resources */ = {isa = PBXBuildFile; fileRef = E8ECD38D14A12AE9001C8655 /* 2x4 mod.png */; };
+		E8ECD39114A12B3D001C8655 /* Vertigrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E8ECD39014A12B3D001C8655 /* Vertigrow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +86,9 @@
 		E870C93F1475678C0072D2E5 /* ThumbImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbImageView.m; sourceTree = "<group>"; };
 		E8887A4C148408C200180CC7 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		E8887A4E148408D700180CC7 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		E8ECD38C14A12AE9001C8655 /* 2x2 mod.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2x2 mod.png"; sourceTree = "<group>"; };
+		E8ECD38D14A12AE9001C8655 /* 2x4 mod.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2x4 mod.png"; sourceTree = "<group>"; };
+		E8ECD39014A12B3D001C8655 /* Vertigrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Vertigrow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +189,9 @@
 				E83EAE3B14940AC40092A04D /* prayer plant.png */,
 				E83EAE3C14940AC40092A04D /* snake plant.png */,
 				E83EAE3D14940AC40092A04D /* spider plant.png */,
+				E8ECD38C14A12AE9001C8655 /* 2x2 mod.png */,
+				E8ECD38D14A12AE9001C8655 /* 2x4 mod.png */,
+				E8ECD39014A12B3D001C8655 /* Vertigrow.png */,
 			);
 			path = Thumbs;
 			sourceTree = "<group>";
@@ -259,6 +268,9 @@
 				E83EAE4B14940AC40092A04D /* prayer plant.png in Resources */,
 				E83EAE4C14940AC40092A04D /* snake plant.png in Resources */,
 				E83EAE4D14940AC40092A04D /* spider plant.png in Resources */,
+				E8ECD38E14A12AE9001C8655 /* 2x2 mod.png in Resources */,
+				E8ECD38F14A12AE9001C8655 /* 2x4 mod.png in Resources */,
+				E8ECD39114A12B3D001C8655 /* Vertigrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
